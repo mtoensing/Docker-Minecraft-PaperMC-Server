@@ -1,1 +1,1 @@
-*/5 * * * * /opt/minecraft/server/restart.sh
+*/1 * * * * /opt/minecraft/server/restart.sh 
