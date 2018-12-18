@@ -8,9 +8,7 @@ MAINTAINER Marc Tönsing <marc@marc.tv>
 #################
 ### Arguments ###
 #################
-
 ARG PAPERSPIGOT_CI_URL=https://papermc.io/ci/job/Paper-1.13/lastSuccessfulBuild/artifact/paperclip.jar
-
 
 ##########################
 ### Download paperclip ###
@@ -31,14 +29,10 @@ RUN cd /opt/minecraft/server/ \
 ###########################
 FROM anapsix/alpine-java:latest
 
+###########################
+### Install screen      ###
+###########################
 RUN apk --update add screen
-
-###################
-### Environment ###
-###################
-ENV JAVA_ARGS "-Xmx3G"
-ENV SPIGOT_ARGS ""
-ENV PAPERSPIGOT_ARGS ""
 
 #########################
 ### Working directory ###
@@ -55,6 +49,17 @@ COPY --from=build /opt/minecraft/server/paperspigot.jar /opt/minecraft/server/pa
 ########################
 ADD start.sh /opt/minecraft/server/start.sh
 
+###########################################
+### Configure and run cron              ###
+###########################################
+
+COPY crontab /etc/cron/crontab
+
+# Init cron
+RUN crontab /etc/cron/crontab
+
+CMD ["crond", "-f"]
+
 ###############
 ### Volumes ###
 ###############
@@ -68,4 +73,5 @@ EXPOSE 25565
 ######################################
 ### Entrypoint is the start script ###
 ######################################
+WORKDIR /data
 ENTRYPOINT sh /opt/minecraft/server/start.sh
