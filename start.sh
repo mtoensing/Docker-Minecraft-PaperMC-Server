@@ -1,6 +1,6 @@
 #/bin/sh
 cd /data
-/usr/bin/screen -dmS minecraft /opt/jdk1.8.0_192/jre/bin/java -jar -Xms800M -Xmx800M -Dcom.mojang.eula.agree=true /opt/minecraft/server/paperspigot.jar
+/usr/bin/screen -S minecraft /opt/jdk1.8.0_192/jre/bin/java -jar -Xms800M -Xmx800M -Dcom.mojang.eula.agree=true /opt/minecraft/server/paperspigot.jar
 screen -ls
 
 #java -version

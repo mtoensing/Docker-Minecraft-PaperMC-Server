@@ -23,4 +23,4 @@ sleep 15s
 # echo "Updating to most recent paperclip version."
 # wget -q https://papermc.io/ci/job/Paper-1.13/lastSuccessfulBuild/artifact/paperclip.jar -O /home/pi/minecraft/paperclip.jar
 echo "Restarting now."
-sudo /sbin/reboot
+/opt/minecraft/server/start.sh

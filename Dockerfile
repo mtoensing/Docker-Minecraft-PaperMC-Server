@@ -49,12 +49,15 @@ COPY --from=build /opt/minecraft/server/paperspigot.jar /opt/minecraft/server/pa
 ########################
 ADD start.sh /opt/minecraft/server/start.sh
 
+########################
+### Obtain restart.sh ###
+########################
+ADD restart.sh /opt/minecraft/server/restart.sh
+
 ###########################################
 ### Configure and run cron              ###
 ###########################################
-
 COPY crontab /etc/cron/crontab
-
 # Init cron
 RUN crontab /etc/cron/crontab
 
