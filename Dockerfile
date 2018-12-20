@@ -29,11 +29,6 @@ RUN cd /opt/minecraft/server/ \
 ###########################
 FROM anapsix/alpine-java:latest
 
-###########################
-### Install screen      ###
-###########################
-RUN apk --update add screen
-
 #########################
 ### Working directory ###
 #########################
