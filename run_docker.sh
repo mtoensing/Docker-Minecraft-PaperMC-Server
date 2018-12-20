@@ -1,6 +1,6 @@
 docker run \
   --rm \
   --name mcserver \
-  -v ~/server:/data:rw \
+  -v /var/services/homes/mtoensing/server:/data:rw \
   -p 25565:25565 \
-  -itd minecraftpaperserver:latest
+-i minecraftpaperserver:latest

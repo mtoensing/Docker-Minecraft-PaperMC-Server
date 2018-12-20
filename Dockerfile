@@ -47,12 +47,12 @@ COPY --from=build /opt/minecraft/server/paperspigot.jar /opt/minecraft/server/pa
 ########################
 ### Obtain starth.sh ###
 ########################
-ADD dockerfiles/start.sh /opt/minecraft/server/start.sh
+#ADD dockerfiles/start.sh /opt/minecraft/server/start.sh
 
 ############################
 ### Obtain server config ###
 ###########################
-ADD dockerfiles/server.properties /opt/minecraft/server/server.properties
+ADD server.properties /opt/minecraft/server/server.properties
 
 ###############
 ### Volumes ###
@@ -78,4 +78,4 @@ EXPOSE 25565
 ### Entrypoint is the start script ###
 ######################################
 WORKDIR /data
-ENTRYPOINT sh /opt/minecraft/server/start.sh
+ENTRYPOINT /opt/jdk1.8.0_192/jre/bin/java -jar -Xms3G -Xmx3G -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=35 -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -Dusing.aikars.flags=mcflags.emc.gs -Dcom.mojang.eula.agree=true /opt/minecraft/server/paperspigot.jar
