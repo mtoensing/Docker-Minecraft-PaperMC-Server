@@ -44,16 +44,6 @@ WORKDIR /data
 ###########################################
 COPY --from=build /opt/minecraft/server/paperspigot.jar /opt/minecraft/server/paperspigot.jar
 
-########################
-### Obtain starth.sh ###
-########################
-#ADD dockerfiles/start.sh /opt/minecraft/server/start.sh
-
-############################
-### Obtain server config ###
-###########################
-ADD server.properties /opt/minecraft/server/server.properties
-
 ###############
 ### Volumes ###
 ###############
@@ -67,7 +57,6 @@ ARG ARCH=amd64
 ADD https://github.com/itzg/rcon-cli/releases/download/${RCON_CLI_VER}/rcon-cli_${RCON_CLI_VER}_linux_${ARCH}.tar.gz /tmp/rcon-cli.tgz
 RUN tar -x -C /usr/local/bin -f /tmp/rcon-cli.tgz rcon-cli && \
   rm /tmp/rcon-cli.tgz
-
 
 #############################
 ### Expose minecraft port ###
