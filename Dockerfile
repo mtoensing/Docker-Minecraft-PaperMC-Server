@@ -39,6 +39,11 @@ WORKDIR /data
 ###########################################
 COPY --from=build /opt/minecraft/server/paperspigot.jar /opt/minecraft/server/paperspigot.jar
 
+############################
+### Obtain server config ###
+###########################
+ADD server.properties /opt/minecraft/server/server.properties
+
 ###############
 ### Volumes ###
 ###############
@@ -53,6 +58,7 @@ ADD https://github.com/itzg/rcon-cli/releases/download/${RCON_CLI_VER}/rcon-cli_
 RUN tar -x -C /usr/local/bin -f /tmp/rcon-cli.tgz rcon-cli && \
   rm /tmp/rcon-cli.tgz
 
+
 #############################
 ### Expose minecraft port ###
 #############################
@@ -61,5 +67,8 @@ EXPOSE 25565
 ######################################
 ### Entrypoint is the start script ###
 ######################################
+ARG memory_size=3G
+ENV MEMORYSIZE=$memory_size
+
 WORKDIR /data
-ENTRYPOINT /opt/jdk1.8.0_192/jre/bin/java -jar -Xms3G -Xmx3G -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=35 -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -Dusing.aikars.flags=mcflags.emc.gs -Dcom.mojang.eula.agree=true /opt/minecraft/server/paperspigot.jar
+ENTRYPOINT /opt/jdk1.8.0_192/jre/bin/java -jar -Xms$MEMORYSIZE -Xmx$MEMORYSIZE -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=35 -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -Dusing.aikars.flags=mcflags.emc.gs -Dcom.mojang.eula.agree=true /opt/minecraft/server/paperspigot.jar
