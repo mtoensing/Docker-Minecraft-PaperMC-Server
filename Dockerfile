@@ -8,7 +8,8 @@ MAINTAINER Marc Tönsing <marc@marc.tv>
 #################
 ### Arguments ###
 #################
-ARG PAPERSPIGOT_CI_URL=https://papermc.io/ci/job/Paper-1.13/lastSuccessfulBuild/artifact/paperclip.jar
+ARG paperspigot_ci_url=https://papermc.io/ci/job/Paper-1.13/530/artifact/paperclip-530.jar
+ENV PAPERSPIGOT_CI_URL=$paperspigot_ci_url
 
 ##########################
 ### Download paperclip ###
