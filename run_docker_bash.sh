@@ -4,4 +4,4 @@ docker run \
   --entrypoint=/bin/bash \
   -v ~/server:/data:rw \
   -p 25565:25565 \
-  -itd minecraftpaperserver:latest
+  -itd marctv/minecraftpaperserver:latest
