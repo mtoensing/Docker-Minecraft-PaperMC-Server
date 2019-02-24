@@ -5,9 +5,6 @@ FROM openjdk:8 AS build
 
 MAINTAINER Marc Tönsing <marc@marc.tv>
 
-#################
-### Arguments ###
-#################
 ARG paperspigot_ci_url=https://papermc.io/ci/job/Paper-1.13/530/artifact/paperclip-530.jar
 ENV PAPERSPIGOT_CI_URL=$paperspigot_ci_url
 
@@ -49,16 +46,6 @@ ADD server.properties /opt/minecraft/server/server.properties
 ### Volumes ###
 ###############
 VOLUME "/data"
-
-###############
-### RCON   ###
-###############
-ARG RCON_CLI_VER=1.4.0
-ARG ARCH=amd64
-ADD https://github.com/itzg/rcon-cli/releases/download/${RCON_CLI_VER}/rcon-cli_${RCON_CLI_VER}_linux_${ARCH}.tar.gz /tmp/rcon-cli.tgz
-RUN tar -x -C /usr/local/bin -f /tmp/rcon-cli.tgz rcon-cli && \
-  rm /tmp/rcon-cli.tgz
-
 
 #############################
 ### Expose minecraft port ###
