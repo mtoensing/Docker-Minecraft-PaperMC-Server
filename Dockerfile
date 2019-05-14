@@ -5,7 +5,7 @@ FROM openjdk:8 AS build
 
 MAINTAINER Marc Tönsing <marc@marc.tv>
 
-ARG paperspigot_ci_url=https://papermc.io/ci/job/Paper-1.13/563/artifact/paperclip-563.jar
+ARG paperspigot_ci_url=https://papermc.io/api/v1/paper/1.14.1/20/download
 ENV PAPERSPIGOT_CI_URL=$paperspigot_ci_url
 
 ##########################
