@@ -1,1 +1,1 @@
-docker build -t marctv/minecraftpaperserver .
+docker build -t marctv/minecraft-papermc-server .
