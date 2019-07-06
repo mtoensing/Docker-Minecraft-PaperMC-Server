@@ -5,7 +5,7 @@ FROM openjdk:11 AS build
 
 MAINTAINER Marc Tönsing <marc@marc.tv>
 
-ARG paperspigot_ci_url=https://papermc.io/api/v1/paper/1.14.3/122/download
+ARG paperspigot_ci_url=https://papermc.io/api/v1/paper/1.14.3/124/download
 ENV PAPERSPIGOT_CI_URL=$paperspigot_ci_url
 
 ##########################
