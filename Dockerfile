@@ -1,7 +1,7 @@
 ################################
 ### We use a java base image ###
 ################################
-FROM openjdk:11 AS build
+FROM openjdk:8 AS build
 
 MAINTAINER Marc Tönsing <marc@marc.tv>
 
