@@ -6,4 +6,5 @@ Tutorial (german) https://marc.tv/anleitung-stabiler-minecraft-server-synology-n
 
 On GitHub https://github.com/mtoensing/Docker-Minecraft-PaperMC-Server
 
-Based on the the work of https://github.com/FelixKlauke/paperspigot-docker Thanks for your help!
+Based on the the work of [Felix Klauke](https://github.com/FelixKlauke/paperspigot-docker) Thanks for your help!
+
