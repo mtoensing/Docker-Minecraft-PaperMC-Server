@@ -12,6 +12,7 @@ Based on the the work of [Felix Klauke](https://github.com/FelixKlauke/paperspig
 
 ## Volume
 
+Local path: /your_local_folder
 Mount path: /data
 
 ## Port Settings
