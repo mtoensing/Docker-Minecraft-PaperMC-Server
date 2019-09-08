@@ -49,7 +49,8 @@ ADD server.properties /opt/minecraft/server.properties
 VOLUME "/data"
 
 # Expose minecraft port
-EXPOSE 25565
+EXPOSE 25565/tcp
+EXPOSE 25565/udp
 
 # Set Memory Size
 ARG memory_size=3G
