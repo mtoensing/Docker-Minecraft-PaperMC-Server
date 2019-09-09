@@ -28,3 +28,7 @@ Container Port: 25565 UDP
 MEMORYSIZE = 1G 
 
 Not more than 70% of your RAM for your Container! This is important! This is the RAM your Minecraft Server will use within the container WITHOUT the operating system.
+
+## How to install this server on a Synology NAS
+
+[![Watch the video](https://i.imgur.com/LtAQiTwLgak.png)](https://youtu.be/LtAQiTwLgak)
