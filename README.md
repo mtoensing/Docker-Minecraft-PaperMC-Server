@@ -31,4 +31,4 @@ Not more than 70% of your RAM for your Container! This is important! This is the
 
 ## How to install this server on a Synology NAS
 
-[![Watch the video](https://img.youtube.com/vi/LtAQiTwLgak/hqdefault.jpg)](https://youtu.be/LtAQiTwLgak)
+[![Watch the video](https://img.youtube.com/vi/LtAQiTwLgak/maxresdefault.jpg)](https://youtu.be/LtAQiTwLgak)
