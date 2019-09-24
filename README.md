@@ -10,6 +10,20 @@ This server is live here: https://mc.marc.tv
 
 Based on the the work of [Felix Klauke](https://github.com/FelixKlauke/paperspigot-docker) Thanks for your help!
 
+## Quick Start
+
+docker pull marctv/minecraft-papermc-server
+
+docker run \
+  --rm \
+  --name mcserver \
+  -e MEMORYSIZE='1G' \
+  -v /homes/joe/mcserver:/data:rw \
+  -p 25565:25565 \
+  -p 25575:25575 \
+-i marctv/minecraft-papermc-server:latest
+docker attach mcserver
+
 ## Volume
 
 Local path: /your_local_folder
