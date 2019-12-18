@@ -1,6 +1,6 @@
 # Docker-Minecraft-PaperMC-Server
 
-Starts a Minecraft PaperMC server 1.15, 1.14.4 (legacy) or 1.13.2 (legacy) 
+Starts a Minecraft PaperMC server 1.15.1, 1.14.4 (legacy) or 1.13.2 (legacy) 
 
 Tutorial (german) https://marc.tv/anleitung-stabiler-minecraft-server-synology-nas/
 
