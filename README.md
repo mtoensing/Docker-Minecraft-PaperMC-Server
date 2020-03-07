@@ -10,9 +10,11 @@ This server is live here: https://mc.marc.tv
 
 Based on the the work of [Felix Klauke](https://github.com/FelixKlauke/paperspigot-docker) Thanks for your help!
 
-## How to install this server on a Synology NAS
+## Video: How to install this server on a Synology NAS
 
 [![Watch the video](https://img.youtube.com/vi/LtAQiTwLgak/maxresdefault.jpg)](https://youtu.be/LtAQiTwLgak)
+
+https://youtu.be/LtAQiTwLgak
 
 ## Quick Start
 
