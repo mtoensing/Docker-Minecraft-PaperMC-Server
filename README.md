@@ -10,6 +10,10 @@ This server is live here: https://mc.marc.tv
 
 Based on the the work of [Felix Klauke](https://github.com/FelixKlauke/paperspigot-docker) Thanks for your help!
 
+## How to install this server on a Synology NAS
+
+[![Watch the video](https://img.youtube.com/vi/LtAQiTwLgak/maxresdefault.jpg)](https://youtu.be/LtAQiTwLgak)
+
 ## Quick Start
 
 docker pull marctv/minecraft-papermc-server
@@ -43,6 +47,3 @@ MEMORYSIZE = 1G
 
 Not more than 70% of your RAM for your Container! This is important! This is the RAM your Minecraft Server will use within the container WITHOUT the operating system.
 
-## How to install this server on a Synology NAS
-
-[![Watch the video](https://img.youtube.com/vi/LtAQiTwLgak/maxresdefault.jpg)](https://youtu.be/LtAQiTwLgak)
