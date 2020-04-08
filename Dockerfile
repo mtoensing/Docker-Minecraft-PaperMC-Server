@@ -67,4 +67,3 @@ RUN set -eux; \
 
 # Entrypoint
 ENTRYPOINT ["/opt/minecraft/docker-entrypoint.sh"]
-
