@@ -1,1 +1,1 @@
-docker build -t marctv/minecraft-papermc-server .
+docker build -t ilektron/minecraft-papermc-server .
