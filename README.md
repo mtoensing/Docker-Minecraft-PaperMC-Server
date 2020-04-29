@@ -17,9 +17,11 @@ Based on the the work of [Felix Klauke](https://github.com/FelixKlauke/paperspig
 https://youtu.be/LtAQiTwLgak
 
 ## Quick Start
-
+```sh
 docker pull marctv/minecraft-papermc-server
+```
 
+```sh
 docker run \
   --rm \
   --name mcserver \
@@ -29,6 +31,7 @@ docker run \
   -p 25575:25575 \
 -i marctv/minecraft-papermc-server:latest
 docker attach mcserver
+```
 
 ## Volume
 
