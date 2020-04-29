@@ -14,9 +14,9 @@ docker run \
   -e MEMORYSIZE='1G' \
   -v /homes/joe/mcserver:/data:rw \
   -p 25565:25565 \
-  -p 25575:25575 \
 -i marctv/minecraft-papermc-server:latest
-
+```
+```sh
 docker attach mcserver
 ```
 
