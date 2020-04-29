@@ -16,6 +16,7 @@ docker run \
   -p 25565:25565 \
   -p 25575:25575 \
 -i marctv/minecraft-papermc-server:latest
+
 docker attach mcserver
 ```
 
