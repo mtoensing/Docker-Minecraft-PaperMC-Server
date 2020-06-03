@@ -19,7 +19,6 @@ RUN useradd -ms /bin/bash minecraft && \
 
 USER minecraft
 
-RUN which java
 RUN java -version
 # Run paperclip and obtain patched jar
 RUN java -jar /opt/minecraft/paperclip.jar; exit 0
