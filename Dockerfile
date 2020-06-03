@@ -19,8 +19,10 @@ RUN useradd -ms /bin/bash minecraft && \
 
 USER minecraft
 
+RUN which java
+RUN java -version
 # Run paperclip and obtain patched jar
-RUN /usr/local/openjdk/bin/java -jar /opt/minecraft/paperclip.jar; exit 0
+RUN java -jar /opt/minecraft/paperclip.jar; exit 0
 
 # Copy built jar
 RUN mv /opt/minecraft/cache/patched*.jar paperspigot.jar
@@ -61,6 +63,6 @@ ARG java_flags="-XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=20
 ENV JAVAFLAGS=$java_flags
 
 WORKDIR /data
-RUN /usr/local/openjdk/bin/java -version
+
 # Entrypoint with java optimisations
-ENTRYPOINT /usr/local/openjdk/bin/java -jar -Xms$MEMORYSIZE -Xmx$MEMORYSIZE $JAVAFLAGS /opt/minecraft/paperspigot.jar --nojline nogui
+ENTRYPOINT java -jar -Xms$MEMORYSIZE -Xmx$MEMORYSIZE $JAVAFLAGS /opt/minecraft/paperspigot.jar --nojline nogui
