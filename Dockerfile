@@ -1,7 +1,7 @@
 ########################################################
 ############## We use a java base image ################
 ########################################################
-FROM openjdk:15 AS build
+FROM openjdk:14 AS build
 
 MAINTAINER Marc Tönsing <marc@marc.tv>
 
@@ -19,7 +19,6 @@ RUN useradd -ms /bin/bash minecraft && \
 
 USER minecraft
 
-RUN java -version
 # Run paperclip and obtain patched jar
 RUN java -jar /opt/minecraft/paperclip.jar; exit 0
 
@@ -29,7 +28,7 @@ RUN mv /opt/minecraft/cache/patched*.jar paperspigot.jar
 ########################################################
 ############## Running environment #####################
 ########################################################
-FROM openjdk:15 AS runtime
+FROM openjdk:14 AS runtime
 
 # Working directory
 WORKDIR /data
