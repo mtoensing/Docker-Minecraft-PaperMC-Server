@@ -20,7 +20,7 @@ RUN useradd -ms /bin/bash minecraft && \
 USER minecraft
 
 # Run paperclip and obtain patched jar
-RUN /usr/local/openjdk-11/bin/java -jar /opt/minecraft/paperclip.jar; exit 0
+RUN /usr/local/openjdk-11/bin/java -jar -Dcom.mojang.eula.agree=true /opt/minecraft/paperclip.jar; exit 0
 
 # Copy built jar
 RUN mv /opt/minecraft/cache/patched*.jar paperspigot.jar
