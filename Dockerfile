@@ -5,7 +5,7 @@ FROM openjdk:11 AS build
 
 MAINTAINER Marc Tönsing <marc@marc.tv>
 
-ARG paperspigot_ci_url=https://papermc.io/api/v1/paper/1.15.2/latest/download
+ARG paperspigot_ci_url=https://papermc.io/api/v1/paper/1.16.1/latest/download
 ENV PAPERSPIGOT_CI_URL=$paperspigot_ci_url
 
 WORKDIR /opt/minecraft
@@ -41,9 +41,6 @@ ARG RCON_CLI_VER=1.4.8
 ADD https://github.com/itzg/rcon-cli/releases/download/${RCON_CLI_VER}/rcon-cli_${RCON_CLI_VER}_linux_amd64.tar.gz /tmp/rcon-cli.tgz
 RUN tar -x -C /usr/local/bin -f /tmp/rcon-cli.tgz rcon-cli && \
   rm /tmp/rcon-cli.tgz
-
-# Obtain server config
-ADD server.properties /opt/minecraft/server.properties
 
 # Volumes for the external data (Server, World, Config...)
 VOLUME "/data"
