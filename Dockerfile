@@ -42,9 +42,6 @@ ADD https://github.com/itzg/rcon-cli/releases/download/${RCON_CLI_VER}/rcon-cli_
 RUN tar -x -C /usr/local/bin -f /tmp/rcon-cli.tgz rcon-cli && \
   rm /tmp/rcon-cli.tgz
 
-# Obtain server config
-ADD server.properties /opt/minecraft/server.properties
-
 # Volumes for the external data (Server, World, Config...)
 VOLUME "/data"
 
