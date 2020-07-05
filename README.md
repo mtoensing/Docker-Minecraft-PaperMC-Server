@@ -1,6 +1,6 @@
-# Docker Minecraft PaperMC Server
+# Docker Minecraft PaperMC Server 1.16
 
-Docker Minecraft PaperMC server 1.15.2, 1.14.4 (legacy) or 1.13.2 (legacy) 
+Docker Minecraft PaperMC server 1.16, 1.15.2, 1.14.4 (legacy) or 1.13.2 (legacy)
 
 ## Quick Start
 ```sh
@@ -33,11 +33,11 @@ docker run --rm \
 
 ## Environment variable
 
-MEMORYSIZE = 1G 
+MEMORYSIZE = 1G
 
 Not more than 70% of your RAM for your Container! This is important! This is the RAM your Minecraft Server will use within the container WITHOUT the operating system.
 
-## Tutorial 
+## Tutorial
 
 Tutorial (german) https://marc.tv/anleitung-stabiler-minecraft-server-synology-nas/
 
@@ -45,7 +45,7 @@ Tutorial (german) https://marc.tv/anleitung-stabiler-minecraft-server-synology-n
 
 https://youtu.be/LtAQiTwLgak
 
-## Credits 
+## Credits
 
 On GitHub https://github.com/mtoensing/Docker-Minecraft-PaperMC-Server
 
