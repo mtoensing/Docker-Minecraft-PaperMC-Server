@@ -1,6 +1,6 @@
-# Docker Minecraft PaperMC Server 1.16.2
+# Docker Minecraft PaperMC Server 1.16.3
 
-Docker Minecraft PaperMC server 1.16.2, 1.15.2, 1.14.4 (legacy) or 1.13.2 (legacy)
+Docker Minecraft PaperMC server 1.16.3, 1.15.2, 1.14.4 (legacy) or 1.13.2 (legacy)
 
 ## Quick Start
 ```sh
