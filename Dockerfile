@@ -8,7 +8,6 @@ MAINTAINER Stephen Farnsworth <ilektron@ilektronx.com>
 
 ARG version=1.17.1
 
-
 ########################################################
 ############## Download Paper with API #################
 ########################################################
