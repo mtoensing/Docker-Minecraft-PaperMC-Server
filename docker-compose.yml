@@ -7,7 +7,7 @@ services:
     environment:
       MEMORYSIZE: "2G"
     volumes:
-      - "/home/yourdir/minecraft:/data:rw"
+      - "/home/youruser/minecraft:/data:rw"
     ports:
       - "25565:25565"
     # The following allow `docker attach minecraft` to work
