@@ -15,7 +15,7 @@ help:
 
 start:
 	@echo "Starting Minecraft Server..."; \
-	docker-compose up --build;
+	docker-compose up -d --build;
 
 stop:
 	@echo "Stopping Minecraft Server and cleaning up..."; \
