@@ -1,6 +1,8 @@
 help:
-	@echo "Custom Makefile by Levi Olson:"; \
-	echo "version 1.0"; \
+	@echo ""; \
+	echo "Usage: make <command>"; \
+	echo ""; \
+	echo "where <command> is one of the following:"; \
 	echo ""; \
 	echo "\thelp\tPrints this message"; \
 	echo ""; \
