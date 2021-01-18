@@ -1,0 +1,15 @@
+version: "1.0"
+
+services:
+  minecraft:
+    image: "marctv/minecraft-papermc-server:1.16"
+    container_name: "minecraft"
+    environment:
+      MEMORYSIZE: "2G"
+    volumes:
+      - "/home/yourdir/minecraft:/data:rw"
+    ports:
+      - "25565:25565"
+    # The following allow `docker attach minecraft` to work
+    stdin_open: true
+    tty: true
