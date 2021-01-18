@@ -12,7 +12,7 @@ help:
 	echo "\tstop\tdocker-compose stop --rmi all --remove-orphans"; \
 	echo "\t\t(stops and cleans up images, but keeps data)"; \
 	echo ""; \
-	echo "\tattach\tdocker attach minecraft"; \
+	echo "\tattach\tdocker attach mcserver"; \
 	echo "\t\t(attaches to minecraft paper jar for issuing commands)";
 
 start:
@@ -29,4 +29,4 @@ attach:
 	echo "Ctrl-P Ctrl-Q only exits"; \
 	echo ""; \
 	echo "Type "help" for help."; \
-	docker attach minecraft;
+	docker attach mcserver;
