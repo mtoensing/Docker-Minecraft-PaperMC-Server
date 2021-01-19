@@ -1,9 +1,9 @@
-version: "1.0"
+version: "1.16"
 
 services:
   minecraft:
     image: "marctv/minecraft-papermc-server:1.16"
-    container_name: "minecraft"
+    container_name: "mcserver"
     environment:
       MEMORYSIZE: "2G"
     volumes:
