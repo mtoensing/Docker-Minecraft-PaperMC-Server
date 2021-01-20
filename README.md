@@ -1,6 +1,6 @@
-# Docker Minecraft PaperMC Server 1.16.4
+# Docker Minecraft PaperMC Server 1.16.5
 
-Docker Minecraft PaperMC server 1.16.4, 1.15.2, 1.14.4 (legacy) or 1.13.2 (legacy)
+Docker Minecraft PaperMC server 1.16.x, 1.15.2, 1.14.4 (legacy) or 1.13.2 (legacy)
 
 ## Quick Start
 ```sh
@@ -30,6 +30,37 @@ docker run --rm \
 	-v <full path to folder where you want to store the server files>:/data:rw \
 	marctv/minecraft-papermc-server:latest
  ```
+
+## Docker Compose
+
+If you prefer to use `docker-compose`, use the following commands:
+
+Start the server:
+```sh
+docker-compose up
+```
+Stop the server:
+```sh
+docker-compose stop
+```
+Issue server commands after attaching to the container:
+```sh
+docker attach mcserver
+# then you can type things like "list"
+list
+# which will show the current players online or
+help
+# to see all the commands available
+```
+
+Additionally, a `Makefile` is provided to easily start, stop, and attach to the container.
+
+```sh
+make start     # equivalent to `docker-compose up -d --build`
+make stop      # equivalent to `docker-compose stop --rmi all --remove-orphans`
+make attach    # equivalent to `docker attach mcserver`
+make help      # prints a help message
+```
 
 ## Environment variable
 
