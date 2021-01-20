@@ -1,4 +1,4 @@
-version: "1.16"
+version: "1.16.5"
 
 services:
   minecraft:
