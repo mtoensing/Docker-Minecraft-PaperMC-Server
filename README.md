@@ -53,6 +53,8 @@ help
 # to see all the commands available
 ```
 
+## How to use the Makefile with Docker Compose 
+
 Additionally, a `Makefile` is provided to easily start, stop, and attach to the container.
 
 ```sh
