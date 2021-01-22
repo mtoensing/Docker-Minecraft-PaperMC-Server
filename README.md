@@ -70,6 +70,10 @@ MEMORYSIZE = 1G
 
 Not more than 70% of your RAM for your Container! This is important! This is the RAM your Minecraft Server will use within the container WITHOUT the operating system.
 
+TZ = Europe/Berlin 
+
+Sets the timezone for the container.
+
 ## Tutorial
 
 Tutorial (german) https://marc.tv/anleitung-stabiler-minecraft-server-synology-nas/
