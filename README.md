@@ -72,7 +72,7 @@ Not more than 70% of your RAM for your Container! This is important! This is the
 
 TZ = Europe/Berlin 
 
-Sets the timezone for the container.
+Sets the timezone for the container. A list of valid values can be found on wikipedia: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
 ## Tutorial
 
