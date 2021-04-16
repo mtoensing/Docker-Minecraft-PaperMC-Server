@@ -35,7 +35,8 @@ docker run --rm \
 
 You can get the desired UID/GID (xxx) with the ID command (id username) then add the following to your docker run command:
 
-```-e PUID=xxx
+```sh
+-e PUID=xxx
 -e PGID=xxx
 ```
 
