@@ -31,6 +31,14 @@ docker run --rm \
 	marctv/minecraft-papermc-server:latest
  ```
 
+## Run as non-root user
+
+You can get the desired UID/GID (xxx) with the ID command (id username) then add the following to your docker run command:
+
+```-e PUID=xxx
+-e PGID=xxx
+```
+
 ## Docker Compose
 
 If you prefer to use `docker-compose`, use the following commands:
