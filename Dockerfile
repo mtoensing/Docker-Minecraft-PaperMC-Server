@@ -13,12 +13,6 @@ WORKDIR /opt/minecraft
 # Download paperclip
 ADD ${PAPERSPIGOT_CI_URL} paperclip.jar
 
-# User
-RUN useradd -ms /bin/bash minecraft && \
-    chown minecraft /opt/minecraft -R
-
-USER minecraft
-
 # Run paperclip and obtain patched jar
 RUN /usr/local/openjdk-11/bin/java -jar /opt/minecraft/paperclip.jar; exit 0
 
@@ -59,5 +53,16 @@ ENV JAVAFLAGS=$java_flags
 
 WORKDIR /data
 
-# Entrypoint with java optimisations
-ENTRYPOINT /usr/local/openjdk-11/bin/java -jar -Xms$MEMORYSIZE -Xmx$MEMORYSIZE $JAVAFLAGS /opt/minecraft/paperspigot.jar --nojline nogui
+COPY /docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Install gosu
+RUN set -eux; \
+	apt-get update; \
+	apt-get install -y gosu; \
+	rm -rf /var/lib/apt/lists/*; \
+# verify that the binary works
+	gosu nobody true
+
+# Entrypoint
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]

@@ -31,6 +31,15 @@ docker run --rm \
 	marctv/minecraft-papermc-server:latest
  ```
 
+## Run as non-root user
+
+You can get the desired UID/GID (xxx) with the ID command (id username) then add the following to your docker run command:
+
+```sh
+-e PUID=xxx
+-e PGID=xxx
+```
+
 ## Docker Compose
 
 If you prefer to use `docker-compose`, use the following commands:
@@ -69,6 +78,10 @@ make help      # prints a help message
 MEMORYSIZE = 1G
 
 Not more than 70% of your RAM for your Container! This is important! This is the RAM your Minecraft Server will use within the container WITHOUT the operating system.
+
+TZ = Europe/Berlin 
+
+Sets the timezone for the container. A list of valid values can be found on wikipedia: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
 ## Tutorial
 
