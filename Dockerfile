@@ -1,7 +1,7 @@
 ########################################################
 ############## We use a java base image ################
 ########################################################
-FROM openjdk:16 AS build
+FROM openjdk:16-alpine AS build
 
 MAINTAINER Stephen Farnsworth <ilektron@ilektronx.com>
 
@@ -14,7 +14,7 @@ WORKDIR /opt/minecraft
 ADD ${PAPERSPIGOT_CI_URL} paperclip.jar
 
 # Run paperclip and obtain patched jar
-RUN /usr/local/openjdk-16/bin/java -jar /opt/minecraft/paperclip.jar; exit 0
+RUN /opt/openjdk-16/bin/java -jar /opt/minecraft/paperclip.jar; exit 0
 
 # Copy built jar
 RUN mv /opt/minecraft/cache/patched*.jar paperspigot.jar
@@ -22,7 +22,7 @@ RUN mv /opt/minecraft/cache/patched*.jar paperspigot.jar
 ########################################################
 ############## Running environment #####################
 ########################################################
-FROM openjdk:16 AS runtime
+FROM openjdk:16-alpine AS runtime
 
 # Working directory
 WORKDIR /data
@@ -53,16 +53,14 @@ ENV JAVAFLAGS=$java_flags
 
 WORKDIR /data
 
-COPY /docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+COPY /docker-entrypoint.sh /opt/minecraft
+RUN chmod +x /opt/minecraft/docker-entrypoint.sh
 
 # Install gosu
 RUN set -eux; \
-	apt-get update; \
-	apt-get install -y gosu; \
-	rm -rf /var/lib/apt/lists/*; \
-# verify that the binary works
-	gosu nobody true
+	apk update; \
+	apk add --no-cache su-exec;
 
 # Entrypoint
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+ENTRYPOINT ["/opt/minecraft/docker-entrypoint.sh"]
+
