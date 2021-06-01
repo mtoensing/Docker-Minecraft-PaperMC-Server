@@ -20,6 +20,13 @@ docker run \
 docker attach mcserver
 ```
 
+## How do I update the container? 
+
+* Re-download the image from the docker
+* Stop the container
+* Clear the container
+* Start the container
+
 ## Volume
 
 You can use volumes to store data persistantly, for example:
