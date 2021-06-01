@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
 DOCKER_USER='dockeruser'
@@ -11,8 +11,8 @@ if ! id "$DOCKER_USER" >/dev/null 2>&1; then
     GROUP_ID=${PGID:-9001}
     echo "Starting with $USER_ID:$GROUP_ID (UID:GID)"
 
-    groupadd -f -g $GROUP_ID $DOCKER_GROUP
-    useradd --shell /bin/bash -u $USER_ID -g $GROUP_ID -o -c "" -m $DOCKER_USER
+    addgroup -g $GROUP_ID $DOCKER_GROUP
+    adduser -s /bin/sh -u $USER_ID -G $DOCKER_GROUP -D $DOCKER_USER
 
     chown -vR $USER_ID:$GROUP_ID /opt/minecraft
     chmod -vR ug+rwx /opt/minecraft
@@ -20,4 +20,4 @@ if ! id "$DOCKER_USER" >/dev/null 2>&1; then
 fi
 
 export HOME=/home/$DOCKER_USER
-exec gosu $DOCKER_USER /usr/local/openjdk-11/bin/java -jar -Xms$MEMORYSIZE -Xmx$MEMORYSIZE $JAVAFLAGS /opt/minecraft/paperspigot.jar --nojline nogui
+exec su-exec $DOCKER_USER /opt/openjdk-16/bin/java -jar -Xms$MEMORYSIZE -Xmx$MEMORYSIZE $JAVAFLAGS /opt/minecraft/paperspigot.jar --nojline nogui
