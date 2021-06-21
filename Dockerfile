@@ -5,7 +5,7 @@ FROM openjdk:16-alpine AS build
 
 MAINTAINER Stephen Farnsworth <ilektron@ilektronx.com>
 
-ARG paperspigot_ci_url=https://papermc.io/api/v1/paper/1.16.5/latest/download
+ARG paperspigot_ci_url=https://papermc.io/api/v1/paper/1.17/latest/download
 ENV PAPERSPIGOT_CI_URL=$paperspigot_ci_url
 
 WORKDIR /opt/minecraft
