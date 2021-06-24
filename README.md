@@ -2,6 +2,10 @@
 
 Docker Minecraft PaperMC server 1.16.x, 1.15.2, 1.14.4 (legacy) or 1.13.2 (legacy)
 
+# PaperMC Beta Server for 1.17 
+
+The most recent version of the PaperMC  test builds is available on docker.com in the "beta" tag or here in the "beta" branch. Please test this first since it is far from stable.
+
 ## Quick Start
 ```sh
 docker pull marctv/minecraft-papermc-server
