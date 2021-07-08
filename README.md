@@ -1,6 +1,6 @@
 # Docker Minecraft PaperMC Server 1.17
 
-Docker Minecraft PaperMC server 1,17, 1.16.x, 1.15.2, 1.14.4 (legacy) or 1.13.2 (legacy)
+Docker Minecraft PaperMC server 1.17.x, 1.16.x, 1.15.2, 1.14.4 (legacy) or 1.13.2 (legacy)
 
 
 ## Quick Start
