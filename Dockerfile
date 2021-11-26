@@ -2,16 +2,20 @@
 ############## We use a java base image ################
 ########################################################
 FROM openjdk:16-alpine AS build
+RUN apk --no-cache add curl
 
-MAINTAINER Marc Tönsing <marc@marc.tv>
+LABEL Marc Tönsing <marc@marc.tv>
 
-ARG paperspigot_ci_url=https://papermc.io/api/v1/paper/1.17.1/latest/download
-ENV PAPERSPIGOT_CI_URL=$paperspigot_ci_url
+ARG version=1.17.1
 
+
+########################################################
+############## Download Paper with API #################
+########################################################
 WORKDIR /opt/minecraft
-
-# Download paperclip
-ADD ${PAPERSPIGOT_CI_URL} paperclip.jar
+COPY ./getpaperserver.sh /
+RUN chmod +x /getpaperserver.sh
+RUN /getpaperserver.sh ${version}
 
 # Run paperclip and obtain patched jar
 RUN /opt/openjdk-16/bin/java -Dpaperclip.patchonly=true -jar /opt/minecraft/paperclip.jar; exit 0
