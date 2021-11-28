@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   minecraft:
-    image: "marctv/minecraft-papermc-server:1.16"
+    image: "ilektron/minecraft-papermc-server:1.16"
     container_name: "minecraft"
     container_name: "mcserver"
     environment:
