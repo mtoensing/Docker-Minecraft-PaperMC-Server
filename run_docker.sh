@@ -1,4 +1,5 @@
 docker run \
+  -m=2g
   --rm \
   --name mcserver \
   -v /Users/ilektron/Documents/mcserver:/data:rw \

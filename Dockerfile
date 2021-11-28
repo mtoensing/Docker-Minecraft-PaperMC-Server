@@ -1,11 +1,11 @@
 ########################################################
 ############## We use a java base image ################
 ########################################################
-FROM openjdk:11 AS build
+FROM openjdk:16 AS build
 
 MAINTAINER Stephen Farnsworth <ilektron@ilektronx.com>
 
-ARG paperspigot_ci_url=https://papermc.io/api/v1/paper/1.16.3/latest/download
+ARG paperspigot_ci_url=https://papermc.io/api/v1/paper/1.17.1/latest/download
 ENV PAPERSPIGOT_CI_URL=$paperspigot_ci_url
 
 WORKDIR /opt/minecraft
@@ -20,7 +20,7 @@ RUN useradd -ms /bin/bash minecraft && \
 USER minecraft
 
 # Run paperclip and obtain patched jar
-RUN /usr/local/openjdk-11/bin/java -jar /opt/minecraft/paperclip.jar; exit 0
+RUN /usr/local/openjdk-16/bin/java -jar /opt/minecraft/paperclip.jar; exit 0
 
 # Copy built jar
 RUN mv /opt/minecraft/cache/patched*.jar paperspigot.jar
@@ -28,7 +28,7 @@ RUN mv /opt/minecraft/cache/patched*.jar paperspigot.jar
 ########################################################
 ############## Running environment #####################
 ########################################################
-FROM openjdk:11 AS runtime
+FROM openjdk:16 AS runtime
 
 # Working directory
 WORKDIR /data
@@ -56,4 +56,4 @@ EXPOSE 25565/udp
 WORKDIR /data
 
 # Entrypoint with java optimisations
-ENTRYPOINT /usr/local/openjdk-11/bin/java -jar -XX:+UseContainerSupport -XX:MaxRAMPercentage=80.0 -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -Dcom.mojang.eula.agree=true /opt/minecraft/paperspigot.jar --nojline nogui
+ENTRYPOINT /usr/local/openjdk-16/bin/java -jar -XX:+UseContainerSupport -XX:MaxRAMPercentage=80.0 -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -Dcom.mojang.eula.agree=true /opt/minecraft/paperspigot.jar --nojline nogui
