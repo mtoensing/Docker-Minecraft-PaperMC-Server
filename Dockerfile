@@ -18,8 +18,7 @@ RUN chmod +x /getpaperserver.sh
 RUN /getpaperserver.sh ${version}
 
 # Run paperclip and obtain patched jar
-RUN java -Dpaperclip.patchonly=true -jar /opt/minecraft/paperclip.jar; exit 0
-
+RUN /opt/openjdk-17/bin/java -Dpaperclip.patchonly=true -jar /opt/minecraft/paperclip.jar; exit 0
 
 # Copy built jar
 RUN mv /opt/minecraft/cache/*.jar paperspigot.jar
