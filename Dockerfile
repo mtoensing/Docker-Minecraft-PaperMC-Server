@@ -1,7 +1,7 @@
 ########################################################
 ############## We use a java base image ################
 ########################################################
-FROM eclipse-temurin:17-alpine AS build
+FROM openjdk:17-alpine AS build
 RUN apk --no-cache add curl
 
 LABEL Marc Tönsing <marc@marc.tv>
@@ -20,13 +20,14 @@ RUN /getpaperserver.sh ${version}
 # Run paperclip and obtain patched jar
 RUN java -Dpaperclip.patchonly=true -jar /opt/minecraft/paperclip.jar; exit 0
 
+
 # Copy built jar
-RUN mv /opt/minecraft/cache/patched*.jar paperspigot.jar
+RUN mv /opt/minecraft/cache/*.jar paperspigot.jar
 
 ########################################################
 ############## Running environment #####################
 ########################################################
-FROM eclipse-temurin:17-alpine AS runtime
+FROM openjdk:17-alpine AS runtime
 
 # Working directory
 WORKDIR /data
