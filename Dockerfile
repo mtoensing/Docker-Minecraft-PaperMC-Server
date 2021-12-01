@@ -21,7 +21,7 @@ RUN /getpaperserver.sh ${version}
 RUN /opt/openjdk-17/bin/java -Dpaperclip.patchonly=true -jar /opt/minecraft/paperclip.jar; exit 0
 
 # Copy built jar
-RUN mv /opt/minecraft/cache/patched*.jar paperspigot.jar
+#RUN mv /opt/minecraft/cache/patched*.jar paperspigot.jar
 
 ########################################################
 ############## Running environment #####################
@@ -32,7 +32,7 @@ FROM openjdk:17-alpine AS runtime
 WORKDIR /data
 
 # Obtain runable jar from build stage
-# COPY --from=build /opt/minecraft/paperspigot.jar /opt/minecraft/paperspigot.jar
+COPY --from=build /opt/minecraft/paperspigot.jar /opt/minecraft/paperspigot.jar
 
 # Install and run rcon
 ARG RCON_CLI_VER=1.4.8
