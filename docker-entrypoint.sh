@@ -20,4 +20,4 @@ if ! id "$DOCKER_USER" >/dev/null 2>&1; then
 fi
 
 export HOME=/home/$DOCKER_USER
-exec su-exec $DOCKER_USER /opt/openjdk-17/bin/java -jar -Xms$MEMORYSIZE -Xmx$MEMORYSIZE $JAVAFLAGS /opt/minecraft/paperspigot.jar nogui
+exec su-exec $DOCKER_USER /opt/openjdk-17/bin/java -Dcom.mojang.eula.agree=true -jar -Xms$MEMORYSIZE -Xmx$MEMORYSIZE $JAVAFLAGS /opt/minecraft/paperspigot.jar nogui
