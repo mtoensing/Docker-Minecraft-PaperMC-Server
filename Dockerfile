@@ -1,34 +1,38 @@
 ########################################################
 ############## We use a java base image ################
 ########################################################
-FROM openjdk:16-alpine AS build
+FROM openjdk:17-alpine AS build
+RUN apk --no-cache add curl
 
-MAINTAINER Marc Tönsing <marc@marc.tv>
+LABEL Marc Tönsing <marc@marc.tv>
 
-ARG paperspigot_ci_url=https://papermc.io/api/v1/paper/1.17/latest/download
-ENV PAPERSPIGOT_CI_URL=$paperspigot_ci_url
+ARG version=1.18
 
+
+########################################################
+############## Download Paper with API #################
+########################################################
 WORKDIR /opt/minecraft
-
-# Download paperclip
-ADD ${PAPERSPIGOT_CI_URL} paperclip.jar
+COPY ./getpaperserver.sh /
+RUN chmod +x /getpaperserver.sh
+RUN /getpaperserver.sh ${version}
 
 # Run paperclip and obtain patched jar
-RUN /opt/openjdk-16/bin/java -jar /opt/minecraft/paperclip.jar; exit 0
+RUN /opt/openjdk-17/bin/java -Dpaperclip.patchonly=true -jar /opt/minecraft/paperclip.jar; exit 0
 
 # Copy built jar
-RUN mv /opt/minecraft/cache/patched*.jar paperspigot.jar
+#RUN mv /opt/minecraft/cache/patched*.jar paperspigot.jar
 
 ########################################################
 ############## Running environment #####################
 ########################################################
-FROM openjdk:16-alpine AS runtime
+FROM openjdk:17-alpine AS runtime
 
 # Working directory
 WORKDIR /data
 
 # Obtain runable jar from build stage
-COPY --from=build /opt/minecraft/paperspigot.jar /opt/minecraft/paperspigot.jar
+COPY --from=build /opt/minecraft/paperclip.jar /opt/minecraft/paperspigot.jar
 
 # Install and run rcon
 ARG RCON_CLI_VER=1.4.8
