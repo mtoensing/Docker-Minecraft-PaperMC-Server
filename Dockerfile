@@ -1,7 +1,7 @@
 ########################################################
 ############## We use a java base image ################
 ########################################################
-FROM openjdk:17-alpine AS build
+FROM azul/zulu-openjdk-alpine:17-jre AS build
 RUN apk --no-cache add curl
 
 LABEL Marc Tönsing <marc@marc.tv>
@@ -23,7 +23,7 @@ RUN /opt/openjdk-17/bin/java -Dpaperclip.patchonly=true -jar /opt/minecraft/pape
 ########################################################
 ############## Running environment #####################
 ########################################################
-FROM openjdk:17-alpine AS runtime
+FROM azul/zulu-openjdk-alpine:17-jre AS runtime
 
 # Working directory
 WORKDIR /data
