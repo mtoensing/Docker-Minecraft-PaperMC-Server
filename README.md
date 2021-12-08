@@ -5,7 +5,7 @@ Docker Minecraft PaperMC server  1.18, 1.17.x, 1.16.x, 1.15.2, 1.14.4 (legacy) o
 
 # Minecraft 1.18 beta
 
-docker pull marctv/minecraft-papermc-server:1.18
+	docker pull marctv/minecraft-papermc-server:1.18
 
 See https://github.com/mtoensing/Docker-Minecraft-PaperMC-Server/issues/33 for more information.
 
