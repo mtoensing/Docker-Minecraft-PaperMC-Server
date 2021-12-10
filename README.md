@@ -1,7 +1,6 @@
 # Docker Minecraft JAVA PaperMC Server 1.18
 
-Docker Minecraft PaperMC server  1.18, 1.17.x, 1.16.x, 1.15.2, 1.14.4 (legacy) or 1.13.2 (legacy)
-
+Docker Minecraft PaperMC server for 1.18, 1.17 and 1.16 (deprecated!)
 
 # Minecraft 1.18 beta
 
