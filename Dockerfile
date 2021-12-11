@@ -6,7 +6,7 @@ RUN apk --no-cache add curl
 
 LABEL Marc Tönsing <marc@marc.tv>
 
-ARG version=1.18.1
+ARG version=1.18
 
 
 ########################################################
