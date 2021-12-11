@@ -2,7 +2,7 @@
 ############## We use a java base image ################
 ########################################################
 FROM azul/zulu-openjdk-alpine:17-jre AS build
-RUN apk --no-cache add curl
+RUN apk add curl jq
 
 LABEL Marc Tönsing <marc@marc.tv>
 
