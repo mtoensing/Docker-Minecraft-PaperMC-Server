@@ -1,12 +1,12 @@
 ########################################################
 ############## We use a java base image ################
 ########################################################
-FROM openjdk:16-alpine AS build
-RUN apk --no-cache add curl
+FROM azul/zulu-openjdk-alpine:17-jre AS build
+RUN apk add curl jq
 
 LABEL Marc Tönsing <marc@marc.tv>
 
-ARG version=1.17.1
+ARG version=1.18.1
 
 
 ########################################################
@@ -18,21 +18,18 @@ RUN chmod +x /getpaperserver.sh
 RUN /getpaperserver.sh ${version}
 
 # Run paperclip and obtain patched jar
-RUN /opt/openjdk-16/bin/java -Dpaperclip.patchonly=true -jar /opt/minecraft/paperclip.jar; exit 0
-
-# Copy built jar
-RUN mv /opt/minecraft/cache/patched*.jar paperspigot.jar
+RUN java -Dpaperclip.patchonly=true -jar /opt/minecraft/paperclip.jar; exit 0
 
 ########################################################
 ############## Running environment #####################
 ########################################################
-FROM openjdk:16-alpine AS runtime
+FROM azul/zulu-openjdk-alpine:17-jre AS runtime
 
 # Working directory
 WORKDIR /data
 
 # Obtain runable jar from build stage
-COPY --from=build /opt/minecraft/paperspigot.jar /opt/minecraft/paperspigot.jar
+COPY --from=build /opt/minecraft/paperclip.jar /opt/minecraft/paperspigot.jar
 
 # Install and run rcon
 ARG RCON_CLI_VER=1.4.8
