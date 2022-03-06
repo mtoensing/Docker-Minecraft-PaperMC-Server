@@ -2,13 +2,11 @@
 
 Docker Minecraft PaperMC server for 1.18, 1.17 and 1.16 (deprecated!)
 
-# Minecraft 1.18 beta
+# Minecraft 1.18 
 
 	docker pull marctv/minecraft-papermc-server:1.18
 
 See https://github.com/mtoensing/Docker-Minecraft-PaperMC-Server/issues/33 for more information.
-
-**Experimental test builds for 1.18. Use with extreme caution! Backups are mandatory.**
 
 ## Quick Start
 ```sh
