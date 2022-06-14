@@ -1,10 +1,10 @@
-# Docker Minecraft JAVA PaperMC Server 1.18
+# Docker Minecraft JAVA PaperMC Server 1.19
 
-Docker Minecraft PaperMC server for 1.18, 1.17 and 1.16 (deprecated!)
+Docker Minecraft PaperMC server for 1.19, 1.18, 1.17 and 1.16 (deprecated!)
 
-# Minecraft 1.18 
+# Minecraft 1.19
 
-	docker pull marctv/minecraft-papermc-server:1.18
+	docker pull marctv/minecraft-papermc-server:1.19
 
 See https://github.com/mtoensing/Docker-Minecraft-PaperMC-Server/issues/33 for more information.
 
