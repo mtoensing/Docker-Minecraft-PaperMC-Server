@@ -96,6 +96,10 @@ TZ = Europe/Berlin
 
 Sets the timezone for the container. A list of valid values can be found on wikipedia: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
+PAPERMC_FLAGS = --nojline
+
+Sets the command-line flags for PaperMC. Remove `--nojline` if you want to enable color and tab-completion for the server console.
+
 ## Tutorial
 
 Tutorial (german) https://marc.tv/anleitung-stabiler-minecraft-server-synology-nas/
