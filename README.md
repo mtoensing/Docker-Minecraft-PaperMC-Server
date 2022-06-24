@@ -6,8 +6,6 @@ Docker Minecraft PaperMC server for 1.19, 1.18, 1.17 and 1.16 (deprecated!)
 
 	docker pull marctv/minecraft-papermc-server:1.19
 
-See https://github.com/mtoensing/Docker-Minecraft-PaperMC-Server/issues/33 for more information.
-
 ## Quick Start
 ```sh
 docker pull marctv/minecraft-papermc-server
