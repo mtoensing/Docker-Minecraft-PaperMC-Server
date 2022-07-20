@@ -16,5 +16,10 @@ jobs:
       with: 
         username:  ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-  
+    - name: Build and push
+      uses: docker/build-push-action@v2
+      with: 
+        context: .
+        push: true
+        tags: marctv/minecraft-papermc-server:beta, marctv/minecraft-papermc-server:${{ github.run_number }}
+    - 
