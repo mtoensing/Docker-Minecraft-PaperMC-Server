@@ -1,4 +1,4 @@
-name: Build and push to Docker Hub twice daily
+name: Build and push
 
 on: 
   schedule:
