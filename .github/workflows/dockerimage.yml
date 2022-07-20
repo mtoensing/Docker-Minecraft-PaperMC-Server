@@ -1,6 +1,8 @@
 name: Build and push to Docker Hub twice daily
 
-on:  push
+on: 
+  schedule:
+  - cron: "0 */12 * * *"
 
 jobs:
 
