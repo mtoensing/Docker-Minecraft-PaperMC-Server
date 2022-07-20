@@ -24,7 +24,7 @@ RUN java -Dpaperclip.patchonly=true -jar /opt/minecraft/paperclip.jar; exit 0
 ############## Running environment #####################
 ########################################################
 FROM azul/zulu-openjdk-alpine:17-jre AS runtime
-
+ARG TARGETARCH
 # Working directory
 WORKDIR /data
 
@@ -33,7 +33,7 @@ COPY --from=build /opt/minecraft/paperclip.jar /opt/minecraft/paperspigot.jar
 
 # Install and run rcon
 ARG RCON_CLI_VER=1.4.8
-ADD https://github.com/itzg/rcon-cli/releases/download/${RCON_CLI_VER}/rcon-cli_${RCON_CLI_VER}_linux_amd64.tar.gz /tmp/rcon-cli.tgz
+ADD https://github.com/itzg/rcon-cli/releases/download/${RCON_CLI_VER}/rcon-cli_${RCON_CLI_VER}_linux_${TARGETARCH}.tar.gz /tmp/rcon-cli.tgz
 RUN tar -x -C /usr/local/bin -f /tmp/rcon-cli.tgz rcon-cli && \
   rm /tmp/rcon-cli.tgz
 
