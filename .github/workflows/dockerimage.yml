@@ -26,4 +26,4 @@ jobs:
         context: .
         platforms: linux/amd64,linux/arm64
         push: true
-        tags: marctv/minecraft-papermc-server:beta
+        tags: marctv/minecraft-papermc-server:latest
