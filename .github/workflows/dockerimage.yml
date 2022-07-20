@@ -9,6 +9,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+    # https://github.com/docker/setup-buildx-action
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v1    
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag minecraft-papermc-server:$(date +%s)
+      run: docker buildx build --platform linux/amd64,linux/arm64 . --file Dockerfile --tag minecraft-papermc-server:$(date +%s)
