@@ -1,6 +1,7 @@
 name: Build and push
 
 on: 
+  push:
   schedule:
   - cron: "0 */12 * * *"
 
