@@ -1,8 +1,6 @@
 name: Build and push to Docker Hub twice daily
 
-on: 
-  schedule:
-  - cron: "0 */12 * * *"
+on:  push
 
 jobs:
 
@@ -28,4 +26,5 @@ jobs:
         context: .
         platforms: linux/amd64,linux/arm64
         push: true
-        tags: marctv/minecraft-papermc-server:latest
+        tags: marctv/minecraft-papermc-server:latest,marctv/minecraft-papermc-server:1.19
+        
