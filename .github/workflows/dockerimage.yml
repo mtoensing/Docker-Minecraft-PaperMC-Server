@@ -21,4 +21,4 @@ jobs:
       with: 
         context: .
         push: true
-        tags: marctv/minecraft-papermc-server:beta, marctv/minecraft-papermc-server:${{ github.run_number }}
+        tags: marctv/minecraft-papermc-server:beta
