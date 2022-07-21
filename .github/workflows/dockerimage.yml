@@ -2,6 +2,8 @@ name: Build and push
 
 on: 
   push:
+      branches:
+      - 'master'
   schedule:
   - cron: "0 */12 * * *"
 
