@@ -1,8 +1,9 @@
 ########################################################
 ############## We use a java base image ################
 ########################################################
-FROM azul/zulu-openjdk-alpine:17-jre AS build
-RUN apk add curl jq
+FROM eclipse-temurin:17-jre AS build
+RUN apt-get update
+RUN apt-get install -y curl jq
 
 LABEL Marc Tönsing <marc@marc.tv>
 
@@ -23,7 +24,7 @@ RUN java -Dpaperclip.patchonly=true -jar /opt/minecraft/paperclip.jar; exit 0
 ########################################################
 ############## Running environment #####################
 ########################################################
-FROM azul/zulu-openjdk-alpine:17-jre AS runtime
+FROM eclipse-temurin:17-jre AS runtime
 ARG TARGETARCH
 # Working directory
 WORKDIR /data
@@ -60,11 +61,6 @@ WORKDIR /data
 
 COPY /docker-entrypoint.sh /opt/minecraft
 RUN chmod +x /opt/minecraft/docker-entrypoint.sh
-
-# Install gosu
-RUN set -eux; \
-	apk update; \
-	apk add --no-cache su-exec;
 
 # Entrypoint
 ENTRYPOINT ["/opt/minecraft/docker-entrypoint.sh"]

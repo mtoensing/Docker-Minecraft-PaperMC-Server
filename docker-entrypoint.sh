@@ -20,4 +20,4 @@ if ! id "$DOCKER_USER" >/dev/null 2>&1; then
 fi
 
 export HOME=/home/$DOCKER_USER
-exec su-exec $DOCKER_USER java -jar -Xms$MEMORYSIZE -Xmx$MEMORYSIZE $JAVAFLAGS /opt/minecraft/paperspigot.jar $PAPERMC_FLAGS nogui
+exec suexec $DOCKER_USER java -jar -Xms$MEMORYSIZE -Xmx$MEMORYSIZE $JAVAFLAGS /opt/minecraft/paperspigot.jar $PAPERMC_FLAGS nogui
