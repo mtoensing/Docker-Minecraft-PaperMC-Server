@@ -17,9 +17,6 @@ COPY ./getpaperserver.sh /
 RUN chmod +x /getpaperserver.sh
 RUN /getpaperserver.sh ${version}
 
-# Run paperclip and obtain patched jar
-RUN java -Dpaperclip.patchonly=true -jar /opt/minecraft/paperclip.jar; exit 0
-
 ########################################################
 ############## Running environment #####################
 ########################################################
