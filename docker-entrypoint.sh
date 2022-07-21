@@ -11,8 +11,8 @@ if ! id "$DOCKER_USER" >/dev/null 2>&1; then
     GROUP_ID=${PGID:-9001}
     echo "Starting with $USER_ID:$GROUP_ID (UID:GID)"
 
-    addgroup -g $GROUP_ID $DOCKER_GROUP
-    adduser -s /bin/sh -u $USER_ID -G $DOCKER_GROUP -D $DOCKER_USER
+    addgroup --group $GROUP_ID $DOCKER_GROUP
+    adduser --shell /bin/sh --uid $USER_ID --ingroup $DOCKER_GROUP --disabled-password $DOCKER_USER
 
     chown -vR $USER_ID:$GROUP_ID /opt/minecraft
     chmod -vR ug+rwx /opt/minecraft
