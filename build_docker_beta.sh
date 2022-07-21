@@ -1,0 +1,1 @@
+docker buildx build --no-cache --platform linux/amd64 -t marctv/minecraft-papermc-server:beta .
