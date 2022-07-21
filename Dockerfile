@@ -1,8 +1,8 @@
 ########################################################
 ############## We use a java base image ################
 ########################################################
-FROM eclipse-temurin:17-jre AS build
-RUN apt-get update -y && apt-get install -y curl jq
+FROM azul/zulu-openjdk-alpine:17-jre AS build
+RUN apk add curl jq
 
 LABEL Marc Tönsing <marc@marc.tv>
 
@@ -17,19 +17,14 @@ COPY ./getpaperserver.sh /
 RUN chmod +x /getpaperserver.sh
 RUN /getpaperserver.sh ${version}
 
+# Run paperclip and obtain patched jar
+RUN java -Dpaperclip.patchonly=true -jar /opt/minecraft/paperclip.jar; exit 0
+
 ########################################################
 ############## Running environment #####################
 ########################################################
-FROM eclipse-temurin:17-jre AS runtime
+FROM azul/zulu-openjdk-alpine:17-jre AS runtime
 ARG TARGETARCH
-# Install gosu
-RUN set -eux; \
- apt-get update; \
- apt-get install -y gosu; \
- rm -rf /var/lib/apt/lists/*; \
-# verify that the binary works
- gosu nobody true
-
 # Working directory
 WORKDIR /data
 
@@ -65,6 +60,11 @@ WORKDIR /data
 
 COPY /docker-entrypoint.sh /opt/minecraft
 RUN chmod +x /opt/minecraft/docker-entrypoint.sh
+
+# Install gosu
+RUN set -eux; \
+	apk update; \
+	apk add --no-cache su-exec;
 
 # Entrypoint
 ENTRYPOINT ["/opt/minecraft/docker-entrypoint.sh"]
