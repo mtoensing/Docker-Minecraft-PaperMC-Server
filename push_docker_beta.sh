@@ -1,1 +1,0 @@
-docker push marctv/minecraft-papermc-server:beta
