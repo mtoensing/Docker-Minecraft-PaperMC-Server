@@ -11,10 +11,10 @@ docker run --rm --name mcserver -e MEMORYSIZE='1G' -v /homes/joe/mcserver:/data:
 ## Install on a Raspberry Pi 4
 
 1. Download Raspberry Pi Imager https://www.raspberrypi.com/software/ 
-2. In Raspberry Pi Imager set the ssh access and passwort under the settings gear icon.
+2. In Raspberry Pi Imager set the ssh access and password under the settings gear icon.
 3. Write Raspberry Pi OS (64-bit) lite under "Other OS" to a fast sd-card.
-4. Connect the Raspberry Pi 4 to an ethernet cable
-5. Use putty for windows or terminal on mac and connect via ssh:
+4. Connect the Raspberry Pi 4 to an Ethernet cable
+5. Use putty for Windows or terminal on macOS and connect via ssh:
 ```sh
 ssh pi@raspberrypi
 ```
@@ -41,13 +41,13 @@ mkdir mcserver
 ```sh
 docker run -d --rm --name mcserver -e MEMORYSIZE='1G' -e PAPERMC_FLAGS='' -v /home/pi/mcserver:/data:rw -p 25567:25565 -it marctv/minecraft-papermc-server:latest
 ```
-The server with the world and settings will be generated outside of the container in ``/home/pi/mcserver`` in your home folder.
+The server with the world and settings will be generated outside the container in ``/home/pi/mcserver`` in your home folder.
 
 10. Enter the command line of Minecraft server
 ```sh
 docker attach mcserver
 ```
-Here you use minecraft server commands like ``whitelist add [userrname]``.
+Here, you can use Minecraft server commands like ``whitelist add [userrname]``.
 
 ## How do I update the container? 
 
@@ -111,11 +111,11 @@ make help      # prints a help message
 
 MEMORYSIZE = 1G
 
-Not more than 70% of your RAM for your container. This is important. Because this is the RAM your Minecraft Server will use within the container WITHOUT the operating system.
+Not more than 70% of your RAM for your container. This is important. Because this is the RAM, your Minecraft Server will use within the container WITHOUT the operating system.
 
 TZ = Europe/Berlin 
 
-Sets the timezone for the container. A list of valid values can be found on wikipedia: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+Sets the timezone for the container. A list of valid values can be found on Wikipedia: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
 PAPERMC_FLAGS = --nojline
 
@@ -135,4 +135,4 @@ On GitHub https://github.com/mtoensing/Docker-Minecraft-PaperMC-Server
 
 This server is live here: https://mc.marc.tv
 
-Based on the the work of [Felix Klauke](https://github.com/FelixKlauke/paperspigot-docker) Thanks for your help!
+Based on the work of [Felix Klauke](https://github.com/FelixKlauke/paperspigot-docker) Thanks for your help!
