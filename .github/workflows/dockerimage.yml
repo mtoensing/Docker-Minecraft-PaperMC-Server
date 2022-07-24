@@ -5,7 +5,7 @@ on:
       branches:
       - 'master'
   schedule:
-  - cron: "0 */12 * * *"
+  - cron: "0 */6 * * *"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -35,4 +35,10 @@ jobs:
         platforms: linux/amd64,linux/arm64
         push: true
         tags: marctv/minecraft-papermc-server:latest
-        
+    - name: Dockerhub Readme
+      uses: ms-jpq/sync-dockerhub-readme@v1
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+        readme: "./README.md"
+
