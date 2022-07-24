@@ -3,7 +3,7 @@ name: Build and push
 on: 
   push:
       branches:
-      - 'master'
+      - 'beta'
   schedule:
   - cron: "0 */12 * * *"
 
