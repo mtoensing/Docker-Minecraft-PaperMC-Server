@@ -26,7 +26,7 @@ jobs:
         pass: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
         slug: marctv/minecraft-papermc-server
         readme: ./README.md
-        description: MarcTV Paper Minecraft Java Server 1.19+ — Starts fast, runs stable and is always up-to-date.
+        description: Minecraft Java Server 1.19+ — Starts fast, runs stable and is always up-to-date.
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
     - name: Set up Docker Buildx
