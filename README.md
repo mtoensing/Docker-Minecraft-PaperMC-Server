@@ -11,19 +11,20 @@ The server will generate all data including the world and config files in ``/hom
 
 ## Install on a Raspberry Pi 4
 
-1. Download Raspberry Pi Imager https://www.raspberrypi.com/software/ 
-2. In Raspberry Pi Imager set the ssh access and password under the settings gear icon.
-3. Write Raspberry Pi OS (64-bit) lite under "Other OS" to a fast sd-card.
-4. Connect the Raspberry Pi 4 to an Ethernet cable
-5. Use putty for Windows or terminal on macOS and connect via ssh:
+1. Download **Raspberry Pi Imager** https://www.raspberrypi.com/software/ and start it.
+2. Select **Raspberry Pi OS (64-bit)** lite under "Other OS".
+3. Click on gear icon in the Raspberry Pi Imager to set the ssh access and password.
+4. Write image to a fast sd card. 
+5. Connect the Raspberry Pi 4 to an Ethernet cable
+6. Use putty for Windows or terminal on macOS and connect via ssh:
 ```sh
 ssh pi@raspberrypi
 ```
-6. Upgrade all packages
+7. Upgrade all packages
 ```sh
  sudo apt update && sudo apt upgrade
 ```
-7. Install Docker 
+8. Install Docker 
 ```sh
 curl -fsSL https://get.docker.com -o get-docker.sh
 chmod +x get-docker.sh 
@@ -33,18 +34,18 @@ dockerd-rootless-setuptool.sh install
 sudo usermod -aG docker $USER
 newgrp docker
 ```
-8. New folder for the server
+9. New folder for the server
 ```sh
 cd 
 mkdir mcserver
 ```
-9. Run this image as Minecraft Server
+10. Run this image as Minecraft Server
 ```sh
 docker run -d --rm --name mcserver -e MEMORYSIZE='1G' -e PAPERMC_FLAGS='' -v /home/pi/mcserver:/data:rw -p 25567:25565 -it marctv/minecraft-papermc-server:latest
 ```
 The server will generate all data including the world and config files in ``/home/pi/mcserver``.
 
-10. Enter the command line of Minecraft server
+11. Enter the command line of Minecraft server
 ```sh
 docker attach mcserver
 ```
