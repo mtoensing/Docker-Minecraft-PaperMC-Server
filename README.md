@@ -2,10 +2,6 @@
 
 Docker Minecraft PaperMC server for 1.19, 1.18, 1.17 and 1.16 (deprecated!) for AMD64 and ARM64 platforms.
 
-# Minecraft 1.19
-
-	docker pull marctv/minecraft-papermc-server:1.19
-
 ## Quick Start
 
 ```sh
@@ -43,30 +39,31 @@ mkdir mcserver
 ```
 9. Run this image as Minecraft Server
 ```sh
-docker run -d --rm --name mcserver -e MEMORYSIZE='1G' -v /home/pi/mcserver:/data:rw -p 25565:25565 -i marctv/minecraft-papermc-server:latest
+docker run -d --rm --name mcserver -e MEMORYSIZE='1G' -e PAPERMC_FLAGS='' -v /home/pi/mcserver:/data:rw -p 25567:25565 -it marctv/minecraft-papermc-server:latest
 ```
-10. Command line of Minecraft server
+The server with the world and settings will be generated outside of the container in ``/home/pi/mcserver`` in your home folder.
+
+10. Enter the command line of Minecraft server
 ```sh
 docker attach mcserver
 ```
+Here you use minecraft server commands like ``whitelist add [userrname]``.
 
 ## How do I update the container? 
+
+### On Synology DSM
 
 * Re-download the image from the docker
 * Stop the container
 * Clear the container
 * Start the container
 
-## Volume
-
-You can use volumes to store data persistantly, for example:
+### On Terminal
 
 ```sh
-docker run --rm \
-	-p 25565:25565 \
-	-v <full path to folder where you want to store the server files>:/data:rw \
-	marctv/minecraft-papermc-server:latest
- ```
+docker pull marctv/minecraft-papermc-server:latest
+sudo docker stop mcserver
+```
 
 ## Run as non-root user
 
@@ -114,7 +111,7 @@ make help      # prints a help message
 
 MEMORYSIZE = 1G
 
-Not more than 70% of your RAM for your Container! This is important! This is the RAM your Minecraft Server will use within the container WITHOUT the operating system.
+Not more than 70% of your RAM for your container. This is important. Because this is the RAM your Minecraft Server will use within the container WITHOUT the operating system.
 
 TZ = Europe/Berlin 
 
