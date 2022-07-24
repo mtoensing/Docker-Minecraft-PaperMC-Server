@@ -7,6 +7,7 @@ Docker Minecraft PaperMC server for 1.19, 1.18, 1.17 and 1.16 (deprecated!) for 
 ```sh
 docker run --rm --name mcserver -e MEMORYSIZE='1G' -v /homes/joe/mcserver:/data:rw -p 25565:25565 -i marctv/minecraft-papermc-server:latest
 ```
+The server will generate all data including the world and config files in ``/homes/joe/mcserver``. Change that to an existing folder.
 
 ## Install on a Raspberry Pi 4
 
@@ -41,7 +42,7 @@ mkdir mcserver
 ```sh
 docker run -d --rm --name mcserver -e MEMORYSIZE='1G' -e PAPERMC_FLAGS='' -v /home/pi/mcserver:/data:rw -p 25567:25565 -it marctv/minecraft-papermc-server:latest
 ```
-The server with the world and settings will be generated outside the container in ``/home/pi/mcserver`` in your home folder.
+The server will generate all data including the world and config files in ``/home/pi/mcserver``.
 
 10. Enter the command line of Minecraft server
 ```sh
