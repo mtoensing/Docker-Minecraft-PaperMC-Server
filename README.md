@@ -43,7 +43,11 @@ mkdir mcserver
 ```
 9. Run this image as Minecraft Server
 ```sh
-docker run --rm --name mcserver -e MEMORYSIZE='1G' -v /home/pi/mcserver:/data:rw -p 25565:25565 -i marctv/minecraft-papermc-server:latest
+docker run -d --rm --name mcserver -e MEMORYSIZE='1G' -v /home/pi/mcserver:/data:rw -p 25565:25565 -i marctv/minecraft-papermc-server:latest
+```
+10. Command line of Minecraft server
+```sh
+docker attach mcserver
 ```
 
 ## How do I update the container? 
