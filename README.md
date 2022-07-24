@@ -1,6 +1,6 @@
 # Docker Minecraft JAVA PaperMC Server 1.19
 
-Docker Minecraft PaperMC server for 1.19, 1.18, 1.17 and 1.16 (deprecated!) for AMD64 and ARM64 platforms.
+Docker Minecraft PaperMC server for 1.19, 1.18, 1.17 for AMD64 and ARM64 platforms. Works on Synology, Raspberry Pi 4 or any other system that supports docker.
 
 ## Quick Start
 
