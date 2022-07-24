@@ -55,10 +55,10 @@ Here, you can use Minecraft server commands like ``whitelist add [userrname]``.
 
 ### On Synology DSM
 
-* Re-download the image from the docker
-* Stop the container
-* Clear the container
-* Start the container
+* Re-download the image from the docker repository.
+* Stop the container.
+* Clear the container.
+* Start the container.
 
 ### On Terminal
 
