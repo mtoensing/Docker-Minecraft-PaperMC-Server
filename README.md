@@ -15,7 +15,7 @@ The server will generate all data including the world and config files in ``/hom
 2. Select Raspberry Pi OS **lite** (64-bit) under "Raspberry Pi OS (other)".
 3. Click on gear icon in the Raspberry Pi Imager and enable ssh and set username and password.
 4. Write image to a fast sd card. 
-5. Connect the Raspberry Pi 4 to an Ethernet cable
+5. Connect the Raspberry Pi 4 to an ethernet cable.
 6. Use putty for Windows or terminal on macOS and connect via ssh:
 ```sh
 ssh pi@raspberrypi
