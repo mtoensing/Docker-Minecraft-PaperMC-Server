@@ -108,7 +108,7 @@ make attach    # equivalent to `docker attach mcserver`
 make help      # prints a help message
 ```
 
-## Environment variable
+## Environment variables
 
 MEMORYSIZE = 1G
 
