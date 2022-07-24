@@ -7,21 +7,43 @@ Docker Minecraft PaperMC server for 1.19, 1.18, 1.17 and 1.16 (deprecated!) for 
 	docker pull marctv/minecraft-papermc-server:1.19
 
 ## Quick Start
-```sh
-docker pull marctv/minecraft-papermc-server
-```
 
 ```sh
-docker run \
-  --rm \
-  --name mcserver \
-  -e MEMORYSIZE='1G' \
-  -v /homes/joe/mcserver:/data:rw \
-  -p 25565:25565 \
--i marctv/minecraft-papermc-server:latest
+docker run --rm --name mcserver -e MEMORYSIZE='1G' -v /homes/joe/mcserver:/data:rw -p 25565:25565 -i marctv/minecraft-papermc-server:latest
 ```
+
+## Install on a Raspberry Pi 4
+
+1. Download Raspberry Pi Imager https://www.raspberrypi.com/software/ 
+2. In Raspberry Pi Imager set the ssh access and passwort under the settings gear icon.
+3. Write Raspberry Pi OS (64-bit) lite under "Other OS" to a fast sd-card.
+4. Connect the Raspberry Pi 4 to an ethernet cable
+5. Use putty for windows or terminal on mac and connect via ssh:
 ```sh
-docker attach mcserver
+ssh pi@raspberrypi
+```
+6. Upgrade all packages
+```sh
+ sudo apt update && sudo apt upgrade
+```
+7. Install Docker 
+```sh
+curl -fsSL https://get.docker.com -o get-docker.sh
+chmod +x get-docker.sh 
+./get-docker.sh 
+apt-get install -y uidmap
+dockerd-rootless-setuptool.sh install
+sudo usermod -aG docker $USER
+newgrp docker
+```
+8. New folder for the server
+```sh
+cd 
+mkdir mcserver
+```
+9. Run this image as Minecraft Server
+```sh
+docker run --rm --name mcserver -e MEMORYSIZE='1G' -v /home/pi/mcserver:/data:rw -p 25565:25565 -i marctv/minecraft-papermc-server:latest
 ```
 
 ## How do I update the container? 
