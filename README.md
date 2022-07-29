@@ -2,6 +2,8 @@
 
 Docker Minecraft PaperMC server for 1.19, 1.18, 1.17 for AMD64 and ARM64 platforms. Works on Synology, Raspberry Pi 4 or any other system that supports docker.
 
+[![Build and push](https://github.com/mtoensing/Docker-Minecraft-PaperMC-Server/actions/workflows/dockerimage.yml/badge.svg?branch=master&event=push)](https://github.com/mtoensing/Docker-Minecraft-PaperMC-Server/actions/workflows/dockerimage.yml)
+
 ## Quick Start
 
 ```sh
