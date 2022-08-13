@@ -11,7 +11,7 @@ docker run --rm --name mcserver -e MEMORYSIZE='1G' -v /home/joe/mcserver:/data:r
 ```
 The server will generate all data including the world and config files in ``/home/joe/mcserver``. Change that to an existing folder.
 
-## Install on a Raspberry Pi 4
+## How-to install on a Raspberry Pi 4
 
 1. Download **Raspberry Pi Imager** https://www.raspberrypi.com/software/ and start it.
 2. Select Raspberry Pi OS **lite** (64-bit) under "Raspberry Pi OS (other)".
