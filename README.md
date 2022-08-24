@@ -31,7 +31,7 @@ ssh pi@raspberrypi
 curl -fsSL https://get.docker.com -o get-docker.sh
 chmod +x get-docker.sh 
 ./get-docker.sh 
-apt-get install -y uidmap
+sudo apt-get install -y uidmap
 dockerd-rootless-setuptool.sh install
 sudo usermod -aG docker $USER
 newgrp docker
