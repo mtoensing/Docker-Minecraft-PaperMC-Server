@@ -43,7 +43,7 @@ mkdir mcserver
 ```
 10. Run this image as Minecraft Server
 ```sh
-docker run -d --rm --name mcserver -e MEMORYSIZE='1G' -e PAPERMC_FLAGS='' -v /home/pi/mcserver:/data:rw -p 25565:25565 -it marctv/minecraft-papermc-server:latest
+docker run -d --restart unless-stopped --name mcserver -e MEMORYSIZE='1G' -e PAPERMC_FLAGS='' -v /home/pi/mcserver:/data:rw -p 25565:25565 -it marctv/minecraft-papermc-server:latest
 ```
 The server will generate all data including the world and config files in ``/home/pi/mcserver``.
 
