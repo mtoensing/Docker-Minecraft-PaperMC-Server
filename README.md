@@ -25,6 +25,7 @@ ssh pi@raspberrypi
 7. Upgrade all packages
 ```sh
  sudo apt update && sudo apt upgrade
+ sudo reboot now
 ```
 8. Install Docker 
 ```sh
@@ -34,6 +35,7 @@ chmod +x get-docker.sh
 sudo apt-get install -y uidmap
 dockerd-rootless-setuptool.sh install
 sudo usermod -aG docker $USER
+sudo systemctl enable docker
 newgrp docker
 ```
 9. New folder for the server
