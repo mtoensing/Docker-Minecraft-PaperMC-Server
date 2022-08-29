@@ -24,11 +24,13 @@ You can install this docker container by using my dedicated installer: https://g
 ```sh
 ssh pi@raspberrypi
 ```
-7. Upgrade all packages
+7. Upgrade all packages 
 ```sh
  sudo apt update && sudo apt upgrade
  sudo reboot now
 ```
+The Raspberry Pi will restart now.
+
 8. Install Docker 
 ```sh
 curl -fsSL https://get.docker.com -o get-docker.sh
