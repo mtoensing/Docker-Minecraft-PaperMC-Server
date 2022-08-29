@@ -13,6 +13,8 @@ The server will generate all data including the world and config files in ``/hom
 
 ## How-to install on a Raspberry Pi 4
 
+You can install this docker container by using my dedicated installer: https://github.com/mtoensing/RaspberryPiMinecraftDocker Or just follow these steps:
+
 1. Download **Raspberry Pi Imager** https://www.raspberrypi.com/software/ and start it.
 2. Select Raspberry Pi OS **lite** (64-bit) under "Raspberry Pi OS (other)".
 3. Click on gear icon in the Raspberry Pi Imager and enable ssh and set username and password.
