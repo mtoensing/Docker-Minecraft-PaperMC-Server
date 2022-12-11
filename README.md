@@ -1,48 +1,31 @@
-# Docker Minecraft JAVA PaperMC Server 1.18
+# Docker Minecraft JAVA PaperMC Server 1.19
 
-Docker Minecraft PaperMC server for 1.18, 1.17 and 1.16 (deprecated!)
+Docker Minecraft PaperMC server for 1.19, 1.18, 1.17 for AMD64 and ARM64 platforms. Works on Synology, Raspberry Pi 4 or any other systems that support docker.
 
-# Minecraft 1.18 
-
-	docker pull marctv/minecraft-papermc-server:1.18
-
-See https://github.com/mtoensing/Docker-Minecraft-PaperMC-Server/issues/33 for more information.
+[![Build and push](https://github.com/mtoensing/Docker-Minecraft-PaperMC-Server/actions/workflows/dockerimage.yml/badge.svg?branch=master&event=push)](https://github.com/mtoensing/Docker-Minecraft-PaperMC-Server/actions/workflows/dockerimage.yml)
 
 ## Quick Start
-```sh
-docker pull marctv/minecraft-papermc-server
-```
 
 ```sh
-docker run \
-  --rm \
-  --name mcserver \
-  -e MEMORYSIZE='1G' \
-  -v /homes/joe/mcserver:/data:rw \
-  -p 25565:25565 \
--i marctv/minecraft-papermc-server:latest
+docker run --rm --name mcserver -e MEMORYSIZE='1G' -v /home/joe/mcserver:/data:rw -p 25565:25565 -i marctv/minecraft-papermc-server:latest
 ```
-```sh
-docker attach mcserver
-```
+The server will generate all data including the world and config files in ``/home/joe/mcserver``. Change that to an existing folder.
 
 ## How do I update the container? 
 
-* Re-download the image from the docker
-* Stop the container
-* Clear the container
-* Start the container
+### On Synology DSM
 
-## Volume
+* Re-download the image from the docker repository.
+* Stop the container.
+* Clear the container.
+* Start the container.
 
-You can use volumes to store data persistantly, for example:
+### On Terminal
 
 ```sh
-docker run --rm \
-	-p 25565:25565 \
-	-v <full path to folder where you want to store the server files>:/data:rw \
-	marctv/minecraft-papermc-server:latest
- ```
+docker pull marctv/minecraft-papermc-server:latest
+sudo docker stop mcserver
+```
 
 ## Run as non-root user
 
@@ -86,17 +69,21 @@ make attach    # equivalent to `docker attach mcserver`
 make help      # prints a help message
 ```
 
-## Environment variable
+## Environment variables
 
 MEMORYSIZE = 1G
 
-Not more than 70% of your RAM for your Container! This is important! This is the RAM your Minecraft Server will use within the container WITHOUT the operating system.
+Not more than 70% of your RAM for your container. This is important. Because this is the RAM, your Minecraft Server will use within the container WITHOUT the operating system.
 
 TZ = Europe/Berlin 
 
-Sets the timezone for the container. A list of valid values can be found on wikipedia: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+Sets the timezone for the container. A list of valid values can be found on Wikipedia: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
-## Tutorial
+PAPERMC_FLAGS = --nojline
+
+Sets the command-line flags for PaperMC. Remove `--nojline` if you want to enable color and tab-completion for the server console.
+
+## Tutorial Synology
 
 Tutorial (german) https://marc.tv/anleitung-stabiler-minecraft-server-synology-nas/
 
@@ -104,10 +91,73 @@ Tutorial (german) https://marc.tv/anleitung-stabiler-minecraft-server-synology-n
 
 https://youtu.be/LtAQiTwLgak
 
+## How-to install on a Raspberry Pi 4
+
+### Video Tutorial Raspberry Pi 4
+
+[![Watch the video](https://img.youtube.com/vi/BuHOyhM2fCg/maxresdefault.jpg)](https://youtu.be/BuHOyhM2fCg)
+
+https://youtu.be/BuHOyhM2fCg
+
+### How-to install on a Raspberry Pi 4
+
+You can install this docker container by using my dedicated installer: https://github.com/mtoensing/RaspberryPiMinecraftDocker Or just follow these steps:
+
+1. Download **Raspberry Pi Imager** https://www.raspberrypi.com/software/ and start it.
+2. Select Raspberry Pi OS **lite** (64-bit) under "Raspberry Pi OS (other)".
+3. Click on gear icon in the Raspberry Pi Imager and enable ssh and set username and password.
+4. Write image to a fast sd card. 
+5. Connect the Raspberry Pi 4 to an ethernet cable.
+6. Use putty for Windows or terminal on macOS and connect via ssh:
+```sh
+ssh pi@raspberrypi
+```
+7. Upgrade all packages 
+```sh
+ sudo apt update && sudo apt upgrade
+ sudo reboot now
+```
+The Raspberry Pi will restart now.
+
+8. Install Docker 
+```sh
+curl -fsSL https://get.docker.com -o get-docker.sh
+chmod +x get-docker.sh 
+./get-docker.sh 
+sudo apt-get install -y uidmap
+dockerd-rootless-setuptool.sh install
+sudo usermod -aG docker $USER
+sudo systemctl enable docker
+newgrp docker
+```
+9. New folder for the server
+```sh
+cd 
+mkdir mcserver
+```
+10. Run this image as Minecraft Server
+```sh
+docker run -d \
+--restart unless-stopped \
+--name mcserver \
+-e MEMORYSIZE='1G' \
+-e PAPERMC_FLAGS='' \
+-v /home/pi/mcserver:/data:rw \
+-p 25565:25565 \
+-it marctv/minecraft-papermc-server:latest
+```
+The server will generate all data including the world and config files in ``/home/pi/mcserver``.
+
+11. Enter the command line of Minecraft server
+```sh
+docker attach mcserver
+```
+Here, you can use Minecraft server commands like ``whitelist add [userrname]``.
+
 ## Credits
 
 On GitHub https://github.com/mtoensing/Docker-Minecraft-PaperMC-Server
 
 This server is live here: https://mc.marc.tv
 
-Based on the the work of [Felix Klauke](https://github.com/FelixKlauke/paperspigot-docker) Thanks for your help!
+Based on the work of [Felix Klauke](https://github.com/FelixKlauke/paperspigot-docker) Thanks for your help!
