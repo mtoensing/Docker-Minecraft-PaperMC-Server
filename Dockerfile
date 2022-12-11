@@ -6,7 +6,7 @@ RUN apk add curl jq
 
 LABEL Marc Tönsing <marc@marc.tv>
 
-ARG version=1.19
+ARG version=1.19.3
 
 
 ########################################################
