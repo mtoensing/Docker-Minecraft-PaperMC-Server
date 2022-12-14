@@ -24,8 +24,10 @@ The server will generate all data including the world and config files in ``/hom
 
 ```sh
 docker pull marctv/minecraft-papermc-server:latest
-sudo docker stop mcserver
+docker stop mcserver
 ```
+
+Or just use https://containrrr.dev/watchtower/ 
 
 ## Run as non-root user
 
