@@ -6,7 +6,7 @@ RUN apk add curl jq
 
 LABEL Marc Tönsing <marc@marc.tv>
 
-ARG version=1.19
+ARG version=1.19.4
 
 
 ########################################################
@@ -32,7 +32,7 @@ WORKDIR /data
 COPY --from=build /opt/minecraft/paperclip.jar /opt/minecraft/paperspigot.jar
 
 # Install and run rcon
-ARG RCON_CLI_VER=1.4.8
+ARG RCON_CLI_VER=1.6.0
 ADD https://github.com/itzg/rcon-cli/releases/download/${RCON_CLI_VER}/rcon-cli_${RCON_CLI_VER}_linux_${TARGETARCH}.tar.gz /tmp/rcon-cli.tgz
 RUN tar -x -C /usr/local/bin -f /tmp/rcon-cli.tgz rcon-cli && \
   rm /tmp/rcon-cli.tgz
@@ -45,7 +45,7 @@ EXPOSE 25565/tcp
 EXPOSE 25565/udp
 
 # Set memory size
-ARG memory_size=3G
+ARG memory_size=1G
 ENV MEMORYSIZE=$memory_size
 
 # Set Java Flags
