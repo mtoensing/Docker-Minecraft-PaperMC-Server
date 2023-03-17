@@ -1,4 +1,4 @@
-# Docker Minecraft JAVA PaperMC Server 1.19
+# Docker Minecraft JAVA PaperMC Server 1.19+
 
 Docker Minecraft PaperMC server for 1.19, 1.18, 1.17 for AMD64 and ARM64 platforms. Works on Synology, Raspberry Pi 4 or any other systems that support docker.
 
@@ -24,8 +24,10 @@ The server will generate all data including the world and config files in ``/hom
 
 ```sh
 docker pull marctv/minecraft-papermc-server:latest
-sudo docker stop mcserver
+docker stop mcserver
 ```
+
+Or just use https://containrrr.dev/watchtower/ 
 
 ## Run as non-root user
 
