@@ -16,7 +16,11 @@ if ! id "$DOCKER_USER" >/dev/null 2>&1; then
 
     chown -vR $USER_ID:$GROUP_ID /opt/minecraft
     chmod -vR ug+rwx /opt/minecraft
-    chown -vR $USER_ID:$GROUP_ID /data
+
+    if [ "$SKIP_PERM_CHECK" != "true" ]
+    then
+        chown -vR $USER_ID:$GROUP_ID /data
+    fi
 fi
 
 export HOME=/home/$DOCKER_USER
