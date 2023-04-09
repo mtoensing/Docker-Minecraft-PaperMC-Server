@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'latest'
+      - '1.19'
   schedule:
     - cron: "0 */12 * * *"
 
