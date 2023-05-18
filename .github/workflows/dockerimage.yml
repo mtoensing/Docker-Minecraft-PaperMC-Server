@@ -19,14 +19,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    - name: Update Readme.md and description
-      uses: meeDamian/sync-readme@v1.0.6
-      with:
-        user: ${{ secrets.DOCKER_HUB_USERNAME }}
-        pass: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-        slug: marctv/minecraft-papermc-server
-        readme: ./README.md
-        description: Minecraft Java Server 1.19+ — Starts fast, runs stable and is always up-to-date.
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
     - name: Set up Docker Buildx
