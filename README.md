@@ -7,7 +7,7 @@ Docker Minecraft PaperMC server for 1.19, 1.18, 1.17 for AMD64 and ARM64 platfor
 ## Quick Start
 
 ```sh
-docker run --rm --name mcserver -e MEMORYSIZE='1G' -v /home/joe/mcserver:/data:rw -p 25565:25565 -i marctv/minecraft-papermc-server:latest
+docker run --rm --name mcserver -e MEMORYSIZEMAX='1G' -v /home/joe/mcserver:/data:rw -p 25565:25565 -i marctv/minecraft-papermc-server:latest
 ```
 
 The server will generate all data including the world and config files in `/home/joe/mcserver`. Change that to an existing folder.
@@ -89,7 +89,8 @@ make help      # prints a help message
 
 ## Environment variables
 
-MEMORYSIZE = 1G
+MEMORYSIZEMIN = 1G <br>
+MEMORYSIZEMAX = 1G
 
 Not more than 70% of your RAM for your container. This is important. Because this is the RAM, your Minecraft Server will use within the container WITHOUT the operating system.
 
@@ -167,7 +168,7 @@ mkdir mcserver
 docker run -d \
 --restart unless-stopped \
 --name mcserver \
--e MEMORYSIZE='1G' \
+-e MEMORYSIZEMAX='1G' \
 -e PAPERMC_FLAGS='' \
 -v /home/pi/mcserver:/data:rw \
 -p 25565:25565 \
