@@ -45,7 +45,7 @@ jobs:
             marctv/minecraft-papermc-server
             ghcr.io/${{ github.repository }}
           tags: |
-            type=ref,event=branch,pattern=latest,value=1.19
+            type=ref,event=branch,pattern=latest,value=1.20
             type=ref,event=branch,pattern=latest,value=latest
       
       - name: Build and push Docker images
