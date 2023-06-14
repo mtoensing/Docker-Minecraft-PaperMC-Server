@@ -6,7 +6,7 @@ RUN apt-get update -y && apt-get install -y curl jq
 
 LABEL Marc Tönsing <marc@marc.tv>
 
-ARG version=1.20
+ARG version=1.20.1
 
 
 ########################################################
