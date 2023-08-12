@@ -103,7 +103,7 @@ Optional: Sets the command-line flags for PaperMC. Remove `--nojline` if you wan
 
 JAVAFLAGS 
 
-Optional: Overrides the optimized java parameter configuration with your own.
+Optional: Overrides the optimized java parameter configuration with your own. You can set your own Xms and Xmx values this way.
 
 ## Tutorial Synology
 
