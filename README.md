@@ -101,7 +101,7 @@ PAPERMC_FLAGS = --nojline
 
 Optional: Sets the command-line flags for PaperMC. Remove `--nojline` if you want to enable color and tab-completion for the server console.
 
-JAVA_FLAGS 
+JAVAFLAGS 
 
 Optional: Overrides the optimized java parameter configuration with your own.
 
