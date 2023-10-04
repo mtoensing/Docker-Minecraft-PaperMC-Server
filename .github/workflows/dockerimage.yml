@@ -2,44 +2,56 @@ name: Build and push
 
 on: 
   push:
-      branches:
+    branches:
       - 'beta'
   schedule:
-  - cron: "0 */12 * * *"
+    - cron: "0 */12 * * *"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-
-  build:
-    name: Build container
+  push_to_registries:
+    name: Push Docker image to multiple registries
     runs-on: ubuntu-latest
-
+    permissions:
+      packages: write
+      contents: read
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-    - name: Update Readme.md and description
-      uses: meeDamian/sync-readme@v1.0.6
-      with:
-        user: ${{ secrets.DOCKER_HUB_USERNAME }}
-        pass: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-        slug: marctv/minecraft-papermc-server
-        readme: ./README.md
-        description: Minecraft Java Server 1.19+ — Starts fast, runs stable and is always up-to-date.
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v2
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-    - name: Login to Docker Hub
-      uses: docker/login-action@v2
-      with: 
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-    - name: Build and push
-      uses: docker/build-push-action@v3
-      with: 
-        context: .
-        platforms: linux/amd64,linux/arm64
-        push: true
-        tags: marctv/minecraft-papermc-server:beta
+      - name: Check out the repo
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            marctv/minecraft-papermc-server
+            ghcr.io/${{ github.repository }}
+          tags: |
+            type=ref,event=branch,pattern=beta,value=beta
+      
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
