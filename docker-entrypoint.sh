@@ -11,13 +11,17 @@ if ! id "$DOCKER_USER" >/dev/null 2>&1; then
     GROUP_ID=${PGID:-9001}
     echo "Starting with $USER_ID:$GROUP_ID (UID:GID)"
 
-    addgroup -g $GROUP_ID $DOCKER_GROUP
-    adduser -s /bin/sh -u $USER_ID -G $DOCKER_GROUP -D $DOCKER_USER
+    addgroup --gid $GROUP_ID $DOCKER_GROUP
+    adduser $DOCKER_USER --shell /bin/sh --uid $USER_ID --ingroup $DOCKER_GROUP --disabled-password --gecos ""
 
     chown -vR $USER_ID:$GROUP_ID /opt/minecraft
     chmod -vR ug+rwx /opt/minecraft
-    chown -vR $USER_ID:$GROUP_ID /data
+
+    if [ "$SKIP_PERM_CHECK" != "true" ]
+    then
+        chown -vR $USER_ID:$GROUP_ID /data
+    fi
 fi
 
 export HOME=/home/$DOCKER_USER
-exec su-exec $DOCKER_USER java -jar -Xms$MEMORYSIZE -Xmx$MEMORYSIZE $JAVAFLAGS /opt/minecraft/paperspigot.jar $PAPERMC_FLAGS nogui
+exec gosu $DOCKER_USER:$DOCKER_GROUP java -jar -Xms$MEMORYSIZE -Xmx$MEMORYSIZE $JAVAFLAGS /opt/minecraft/paperspigot.jar $PAPERMC_FLAGS nogui
