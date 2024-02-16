@@ -12,7 +12,7 @@ docker run --rm --name mcserver -e MEMORYSIZE='1G' -v /home/joe/mcserver:/data:r
 
 The server will generate all data including the world and config files in `/home/joe/mcserver`. Change that to an existing folder.
 
-# Docker Run Command
+## Docker Run Command
 ```shell
 docker run -d \
   --name mcserver \
