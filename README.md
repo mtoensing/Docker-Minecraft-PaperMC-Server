@@ -20,7 +20,6 @@ docker run -d \
   -e MEMORYSIZE="1G" \
   -p 25565:25565/tcp \
   -p 25565:25565/udp \
-  -p 8100:8100/tcp \
   -v /home/docker/mcserver:/data:rw \
   marctv/minecraft-papermc-server:latest
 ```
