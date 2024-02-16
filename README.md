@@ -24,6 +24,28 @@ docker run -d \
   -v /home/docker/mcserver:/data:rw \
   marctv/minecraft-papermc-server:latest
 ```
+## Docker Compose (Portainer Stacks)
+
+```shell
+version: "3"
+services:
+  minecraftserver:
+    image: marctv/minecraft-papermc-server:latest
+    restart: always
+    container_name: "mcserver"
+    environment:
+      MEMORYSIZE: "1G"
+      PAPERMC_FLAGS: ""
+    volumes:
+      - minecraftserver:/data
+    ports:
+      - "25565:25565"
+    # The following allow `docker attach minecraft` to work
+    stdin_open: true
+    tty: true
+volumes:
+  minecraftserver:
+```
 
 ## How do I update the container?
 
