@@ -29,7 +29,7 @@ docker run -d \
 ```shell
 version: "3"
 services:
-  minecraftserver:
+  minecraft:
     image: marctv/minecraft-papermc-server:latest
     restart: always
     container_name: "mcserver"
