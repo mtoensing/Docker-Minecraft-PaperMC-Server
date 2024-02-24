@@ -32,6 +32,8 @@ RUN set -eux; \
 
 # Install webp (e.g. for Dynmap)
 RUN apt-get update && apt-get install -y webp
+# verify that the binary works
+ cwebp -version
 
 # Working directory
 WORKDIR /data
