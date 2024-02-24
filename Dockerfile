@@ -30,10 +30,8 @@ RUN set -eux; \
 # verify that the binary works
  gosu nobody true
 
-# Install webp (e.g. for Dynmap)
+# Install webp (e.g. for Dynmap) Might not be available on ARM (RPI)
 RUN apt-get update && apt-get install -y webp
-# verify that the binary works
- cwebp -version
 
 # Working directory
 WORKDIR /data
