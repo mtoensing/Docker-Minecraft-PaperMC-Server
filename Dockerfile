@@ -30,6 +30,9 @@ RUN set -eux; \
 # verify that the binary works
  gosu nobody true
 
+# Install webp (e.g. for Dynmap)
+RUN apt-get update && apt-get install -y webp
+
 # Working directory
 WORKDIR /data
 
