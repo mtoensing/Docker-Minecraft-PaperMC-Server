@@ -30,6 +30,9 @@ RUN set -eux; \
 # verify that the binary works
  gosu nobody true
 
+# Install WebP (Dynamap ect)
+RUN apt-get install -y webp 
+
 # Working directory
 WORKDIR /data
 
