@@ -26,6 +26,7 @@ ARG TARGETARCH
 RUN set -eux; \
  apt-get update; \
  apt-get install -y gosu; \
+ apt-get install webp; \
  rm -rf /var/lib/apt/lists/*; \
 # verify that the binary works
  gosu nobody true
