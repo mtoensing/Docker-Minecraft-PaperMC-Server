@@ -6,7 +6,7 @@ RUN apt-get update -y && apt-get install -y curl jq
 
 LABEL Marc Tönsing <marc@marc.tv>
 
-ARG version=1.20.4
+ARG version=1.20.2
 
 
 ########################################################
@@ -68,4 +68,3 @@ RUN chmod +x /opt/minecraft/docker-entrypoint.sh
 
 # Entrypoint
 ENTRYPOINT ["/opt/minecraft/docker-entrypoint.sh"]
-
