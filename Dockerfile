@@ -1,8 +1,9 @@
 ########################################################
 ############## We use a java base image ################
 ########################################################
-FROM eclipse-temurin:latest AS build
+FROM eclipse-temurin:21-jre AS build
 RUN apt-get update -y && \
+    apt-get upgrade -y && \
     apt-get install -y curl jq && \
     # Clean up the apt cache to reduce image size
     rm -rf /var/lib/apt/lists/*
@@ -10,7 +11,6 @@ RUN apt-get update -y && \
 LABEL Marc Tönsing <marc@marc.tv>
 
 ARG version=1.20.4
-
 
 ########################################################
 ############## Download Paper with API #################
@@ -23,7 +23,7 @@ RUN /getpaperserver.sh ${version}
 ########################################################
 ############## Running environment #####################
 ########################################################
-FROM eclipse-temurin:latest AS runtime
+FROM eclipse-temurin:21-jre AS runtime
 ARG TARGETARCH
 # Install gosu
 RUN set -eux; \
