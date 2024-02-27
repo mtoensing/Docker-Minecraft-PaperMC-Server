@@ -99,7 +99,11 @@ Sets the timezone for the container. A list of valid values can be found on Wiki
 
 PAPERMC_FLAGS = --nojline
 
-Sets the command-line flags for PaperMC. Remove `--nojline` if you want to enable color and tab-completion for the server console.
+Optional: Sets the command-line flags for PaperMC. Remove `--nojline` if you want to enable color and tab-completion for the server console.
+
+JAVAFLAGS 
+
+Optional: Overrides the optimized java parameter configuration with your own. You can set your own Xms and Xmx values this way.
 
 ## Tutorial Synology
 
