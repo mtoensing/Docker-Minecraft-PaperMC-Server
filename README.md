@@ -12,6 +12,40 @@ docker run --rm --name mcserver -e MEMORYSIZE='1G' -v /home/joe/mcserver:/data:r
 
 The server will generate all data including the world and config files in `/home/joe/mcserver`. Change that to an existing folder.
 
+## Docker Run Command
+```shell
+docker run -d \
+  --name mcserver \
+  --restart=unless-stopped \
+  -e MEMORYSIZE="1G" \
+  -p 25565:25565/tcp \
+  -p 25565:25565/udp \
+  -v /home/docker/mcserver:/data:rw \
+  marctv/minecraft-papermc-server:latest
+```
+## Docker Compose (Portainer Stacks)
+
+```shell
+version: "3"
+services:
+  minecraft:
+    image: marctv/minecraft-papermc-server:latest
+    restart: always
+    container_name: "mcserver"
+    environment:
+      MEMORYSIZE: "1G"
+      PAPERMC_FLAGS: ""
+    volumes:
+      - minecraftserver:/data
+    ports:
+      - "25565:25565"
+    # The following allow `docker attach minecraft` to work
+    stdin_open: true
+    tty: true
+volumes:
+  minecraftserver:
+```
+
 ## How do I update the container?
 
 ### On Synology DSM

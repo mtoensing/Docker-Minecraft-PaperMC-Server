@@ -6,7 +6,7 @@ RUN apt-get update -y && apt-get install -y curl jq
 
 LABEL Marc Tönsing <marc@marc.tv>
 
-ARG version=1.20.2
+ARG version=1.20.4
 
 
 ########################################################
@@ -29,6 +29,9 @@ RUN set -eux; \
  rm -rf /var/lib/apt/lists/*; \
 # verify that the binary works
  gosu nobody true
+
+# Install webp (e.g. for Dynmap) Might not be available on ARM (RPI)
+RUN apt-get update && apt-get install -y webp
 
 # Working directory
 WORKDIR /data
@@ -68,4 +71,3 @@ RUN chmod +x /opt/minecraft/docker-entrypoint.sh
 
 # Entrypoint
 ENTRYPOINT ["/opt/minecraft/docker-entrypoint.sh"]
-
