@@ -1,8 +1,11 @@
 ########################################################
 ############## We use a java base image ################
 ########################################################
-FROM eclipse-temurin:20-jre AS build
-RUN apt-get update -y && apt-get install -y curl jq
+FROM eclipse-temurin:21-jre AS build
+RUN apt-get update -y && \
+    apt-get install -y curl jq && \
+    # Clean up the apt cache to reduce image size
+    rm -rf /var/lib/apt/lists/*
 
 LABEL Marc Tönsing <marc@marc.tv>
 
@@ -20,7 +23,7 @@ RUN /getpaperserver.sh ${version}
 ########################################################
 ############## Running environment #####################
 ########################################################
-FROM eclipse-temurin:20-jre AS runtime
+FROM eclipse-temurin:21-jre AS runtime
 ARG TARGETARCH
 # Install gosu
 RUN set -eux; \
