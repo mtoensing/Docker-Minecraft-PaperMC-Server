@@ -7,7 +7,7 @@ Docker Minecraft PaperMC server for 1.20, 1.19, 1.18, 1.17 for AMD64 and ARM64 p
 ## Quick Start
 
 ```sh
-docker run --rm --name mcserver -e MEMORYSIZE='1G' -v /home/joe/mcserver:/data:rw -p 25565:25565 -i marctv/minecraft-papermc-server:latest
+docker run --name mcserver -e MEMORYSIZE='1G' -v /home/joe/mcserver:/data:rw -p 25565:25565 -i marctv/minecraft-papermc-server:latest
 ```
 
 The server will generate all data including the world and config files in `/home/joe/mcserver`. Change that to an existing folder.
