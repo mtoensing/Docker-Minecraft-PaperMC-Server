@@ -20,6 +20,9 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
+        with:
+          # Ensure we always use the 'latest' branch for scheduled and manual triggers
+          ref: 'latest'
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
