@@ -11,10 +11,6 @@ COPY --from=docker.io/itzg/rcon-cli:latest /rcon-cli /usr/local/bin/rcon-cli
 # install dependencies
 RUN apt update && apt install -y webp && rm -rf /var/lib/apt/lists/*
 
-# Create minecraft user with fixed UID/GID
-RUN groupadd -g 9001 minecraft && \
-    useradd -u 9001 -g minecraft -d /home/minecraft -m -s /bin/bash minecraft
-
 # Expose minecraft port
 EXPOSE 25565/tcp 25565/udp
 
@@ -30,7 +26,7 @@ ENV PAPERMC_FLAGS="--nojline"
 
 # Set up volumes and permissions
 RUN mkdir -p /data && \
-    chown -R minecraft:minecraft /opt/minecraft
+    chown -R 9001:9001 /opt/minecraft
 
 VOLUME /data
 WORKDIR /data
