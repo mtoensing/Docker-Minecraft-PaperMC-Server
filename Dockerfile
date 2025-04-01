@@ -35,8 +35,8 @@ RUN mkdir -p /data && \
 VOLUME /data
 WORKDIR /data
 
-# Set the user to run the server
-USER minecraft
+# Set the user to run the server with explicit UID:GID
+USER 9001:9001
 
 # Use environment variables to build the startup command
 # This allows for configurable JAVAFLAGS and PAPERMC_FLAGS
