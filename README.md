@@ -78,27 +78,19 @@ docker stop mcserver
 
 Or just use https://containrrr.dev/watchtower/
 
-## Run as non-root user
+## User Permissions
 
-You can get the desired UID/GID (xxx) with the ID command (id username) then add the following to your docker run
-command:
+This container runs as a fixed non-root user with UID/GID 9001:9001. When mounting volumes, make sure your directories have the correct permissions.
 
-```sh
--e PUID=xxx
--e PGID=xxx
-```
+### Setting Permissions for Mounted Volumes
 
-### Skip permission change step
-
-If you have a big custom minecraft install (e.g. multiple plugins which generate files), changing ownership can take up
-a
-tremendous amount of time. You can skip this, by making sure that your files have the necessary permissions for the
-UID/GID
-that you passed using the environment variables above and then add the following variable:
+If you encounter permission issues with mounted volumes (especially when migrating from an existing installation), you can adjust permissions using a temporary busybox container:
 
 ```sh
--e SKIP_PERM_CHECK=true
+docker run --rm -v /path/to/your/data:/data busybox chown -R 9001:9001 /data
 ```
+
+This avoids permission-related problems without needing to run the main container with elevated privileges.
 
 ## Docker Compose
 

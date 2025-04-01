@@ -9,7 +9,11 @@ ADD "${DOWNLOAD_URL}" /opt/minecraft/paperspigot.jar
 COPY --from=docker.io/itzg/rcon-cli:latest /rcon-cli /usr/local/bin/rcon-cli
 
 # install dependencies
-RUN apt update && apt install -y gosu webp adduser && rm -rf /var/lib/apt/lists/*
+RUN apt update && apt install -y webp && rm -rf /var/lib/apt/lists/*
+
+# Create minecraft user with fixed UID/GID
+RUN groupadd -g 9001 minecraft && \
+    useradd -u 9001 -g minecraft -d /home/minecraft -m -s /bin/bash minecraft
 
 # Expose minecraft port
 EXPOSE 25565/tcp 25565/udp
@@ -24,13 +28,16 @@ ENV PAPERMC_FLAGS="--nojline"
 # - Java will automatically detect container memory with -XX:+UseContainerSupport
 # Recommended reading: https://www.ibm.com/docs/en/sdk-java-technology/8?topic=options-xx-usecontainersupport
 
-VOLUME /data
+# Set up volumes and permissions
+RUN mkdir -p /data && \
+    chown -R minecraft:minecraft /opt/minecraft
 
+VOLUME /data
 WORKDIR /data
 
-COPY /docker-entrypoint.sh /opt/minecraft
+# Set the user to run the server
+USER minecraft
 
-RUN chmod +x /opt/minecraft/docker-entrypoint.sh
-
-# Entrypoint
-ENTRYPOINT ["/opt/minecraft/docker-entrypoint.sh"]
+# Use environment variables to build the startup command
+# This allows for configurable JAVAFLAGS and PAPERMC_FLAGS
+ENTRYPOINT ["sh", "-c", "java ${JAVAFLAGS} ${MEMORYSIZE:+-Xms$MEMORYSIZE -Xmx$MEMORYSIZE} -jar /opt/minecraft/paperspigot.jar ${PAPERMC_FLAGS} nogui"]

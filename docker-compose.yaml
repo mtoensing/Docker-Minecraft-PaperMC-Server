@@ -4,7 +4,9 @@ services:
     restart: always
     container_name: "mcserver"
     environment:
-      PAPERMC_FLAGS: ""
+      PAPERMC_FLAGS: "--nojline"
+      # Uncomment to set memory size explicitly
+      # MEMORYSIZE: "1G"
     deploy:
       resources:
         limits:
