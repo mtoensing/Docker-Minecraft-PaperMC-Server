@@ -15,41 +15,37 @@ jobs:
       - name: get available versions
         id: get_versions
         run: |
+          set -euo pipefail
           curl -s -o versions.json "https://api.papermc.io/v2/projects/paper"
-          VERSIONS=$(jq -c '[.versions | nth(-3, -2, -1)]' versions.json)
-          echo "versions=$VERSIONS" >> "$GITHUB_OUTPUT"
+          # compute newest unstable (pre/rc etc.) and newest stable (strict semver x.y.z)
+          LATEST_STABLE=$(jq -r '[.versions[] | select(test("^[0-9]+\\.[0-9]+\\.[0-9]+$"))] | last' versions.json)
+          LATEST_UNSTABLE=$(jq -r '[.versions[] | select(test("^[0-9]+\\.[0-9]+\\.[0-9]+$") | not)] | last' versions.json)
+          # build order: newest unstable first, then latest stable
+          VERSIONS=$(jq -cn --arg u "$LATEST_UNSTABLE" --arg s "$LATEST_STABLE" '[ $u, $s ] | map(select(. != null and . != ""))')
 
-      - name: find latest
-        id: find_latest
-        run: |
-          for VERSION in $(echo '${{ steps.get_versions.outputs.versions }}' | jq -r '.[]');
-          do
-            echo "check for ${VERSION}"
-            curl -s -o "${VERSION}.json" "https://api.papermc.io/v2/projects/paper/versions/${VERSION}/builds"
-            HAS_STABLE=$(jq 'last(.builds[] | select(.channel=="default")).build' "${VERSION}.json")
-            if  [[ "$HAS_STABLE" =~ ^[0-9]+$ ]]; then
-              LATEST="${VERSION}"
-            fi
-          done
-          
-          echo "latest=$LATEST" >> "$GITHUB_OUTPUT"
+          echo "versions=$VERSIONS" >> "$GITHUB_OUTPUT"
+          # keep compatibility: expose latest (stable) for downstream steps already using it
+          echo "latest=$LATEST_STABLE" >> "$GITHUB_OUTPUT"
 
       - name: show output
         run: |
           echo "versions: ${{ steps.get_versions.outputs.versions }}"
-          echo "latest: ${{ steps.find_latest.outputs.latest }}"
+          echo "latest: ${{ steps.get_versions.outputs.latest }}"
 
   build_for_version:
     runs-on: ubuntu-latest
     needs: get_all_versions
     permissions: write-all
+    continue-on-error: ${{ contains(matrix.versions, '-') }}
     strategy:
+      fail-fast: false
       matrix:
         versions: ${{ fromJson(needs.get_all_versions.outputs.versions) }}
     steps:
       - name: get latest build
         id: latest_build
         run: |
+          set -euo pipefail
           BUILDS=$(curl -s -o builds.json https://api.papermc.io/v2/projects/paper/versions/${{ matrix.versions }}/builds)
           BUILD_STABLE=$(jq 'last(.builds[] | select(.channel=="default")).build' builds.json)
           BUILD_EXPERIMENTAL=$(jq 'last(.builds[] | select(.channel=="experimental")).build' builds.json)
@@ -73,7 +69,7 @@ jobs:
             echo is_latest="no" >> $GITHUB_OUTPUT
           fi
           
-          if [[ $BUILD_TYPE == "experimental" && "${{ needs.get_all_versions.outputs.latest }}" -lt "${{ matrix.versions }}" ]]; then
+          if [[ $BUILD_TYPE == "experimental" ]]; then
             echo is_experimental="yes" >> $GITHUB_OUTPUT
           else
             echo is_experimental="no" >> $GITHUB_OUTPUT
