@@ -9,7 +9,6 @@ on:
         required: true
         default: '1.20.6'
 
-  # Allows you to trigger this workflow from another workflow
   repository_dispatch:
     types: [ build_version ]
 
@@ -20,39 +19,60 @@ jobs:
     permissions:
       packages: write
       contents: read
+
     steps:
       - name: checkout the repo
         uses: actions/checkout@v4
 
+      # ⭐️ Holt Version aus workflow_dispatch oder repository_dispatch payload
       - name: set version
         run: echo "BASE_VERSION=${{ inputs.download_version }}${{ github.event.client_payload.download_version }}" >> $GITHUB_ENV
 
-      - name: get build
+      # ⭐️ NEUE API – findet latest STABLE build (mit Fallback auf RC/experimental)
+      - name: get latest Paper build (stable preferred)
         id: get_build
         run: |
-          BUILDS=$(curl -s -o builds.json https://api.papermc.io/v2/projects/paper/versions/${{ env.BASE_VERSION }}/builds)
-          BUILD_STABLE=$(jq 'last(.builds[] | select(.channel=="default")).build' builds.json)
-          BUILD_EXPERIMENTAL=$(jq 'last(.builds[] | select(.channel=="experimental")).build' builds.json)
-          
-          if  [[ "$BUILD_STABLE" =~ ^[0-9]+$ ]]; then
-            BUILD_NUMBER=$BUILD_STABLE
-            BUILD_TYPE=stable
-          else
-            BUILD_NUMBER=$BUILD_EXPERIMENTAL
-            BUILD_TYPE=experimental
+          PROJECT="paper"
+          USER_AGENT="docker-minecraft-papermc-server ([email protected])"
+
+          # 1️⃣ Neueste MC Version abfragen (falls BASE_VERSION=latest)
+          if [[ "${BASE_VERSION}" == "latest" ]]; then
+            BASE_VERSION=$(curl -s -H "User-Agent: $USER_AGENT" \
+              https://fill.papermc.io/v3/projects/${PROJECT} \
+              | jq -r '.versions | to_entries[0] | .value[0]')
           fi
-          
-          echo build_number="${BUILD_NUMBER}" >> $GITHUB_OUTPUT
-          echo build_type="${BUILD_TYPE}" >> $GITHUB_OUTPUT
-          echo build_url=https://api.papermc.io/v2/projects/paper/versions/${{ env.BASE_VERSION }}/builds/${BUILD_NUMBER} >> $GITHUB_OUTPUT
-          echo download_url="https://api.papermc.io/v2/projects/paper/versions/${{ env.BASE_VERSION }}/builds/${BUILD_NUMBER}/downloads/paper-${{ env.BASE_VERSION }}-${BUILD_NUMBER}.jar" >> $GITHUB_OUTPUT
+
+          echo "Using version: $BASE_VERSION"
+          echo "BASE_VERSION=$BASE_VERSION" >> $GITHUB_ENV
+
+          # 2️⃣ Latest *stable* build suchen:
+          LATEST_BUILD=$(curl -s -H "User-Agent: $USER_AGENT" \
+            "https://fill.papermc.io/v3/projects/${PROJECT}/versions/${BASE_VERSION}/builds" \
+            | jq -r 'map(select(.channel == "STABLE")) | .[0] | .build')
+
+          # 3️⃣ Fallback: Wenn kein stabiler Build → experimental nehmen
+          if [[ -z "$LATEST_BUILD" || "$LATEST_BUILD" == "null" ]]; then
+            LATEST_BUILD=$(curl -s -H "User-Agent: $USER_AGENT" \
+              "https://fill.papermc.io/v3/projects/${PROJECT}/versions/${BASE_VERSION}/builds" \
+              | jq -r 'map(select(.channel == "EXPERIMENTAL" or .channel == "RC")) | .[0] | .build')
+            BUILD_TYPE="experimental"
+          else
+            BUILD_TYPE="stable"
+          fi
+
+          echo "Latest build: $LATEST_BUILD ($BUILD_TYPE)"
+
+          echo build_number="$LATEST_BUILD"      >> $GITHUB_OUTPUT
+          echo build_type="$BUILD_TYPE"          >> $GITHUB_OUTPUT
+          echo build_url="https://fill.papermc.io/v3/projects/paper/versions/${BASE_VERSION}/builds/${LATEST_BUILD}" >> $GITHUB_OUTPUT
+          echo download_url="https://api.papermc.io/v2/projects/paper/versions/${BASE_VERSION}/builds/${LATEST_BUILD}/downloads/paper-${BASE_VERSION}-${LATEST_BUILD}.jar" >> $GITHUB_OUTPUT
 
       - name: show version infos
         run: |
           echo "version: ${{ env.BASE_VERSION }}"
-          echo "number: ${{ steps.get_build.outputs.build_number }}"
-          echo "type: ${{ steps.get_build.outputs.build_type }}"
-          echo "build: ${{ steps.get_build.outputs.build_url }}"
+          echo "number:  ${{ steps.get_build.outputs.build_number }}"
+          echo "type:    ${{ steps.get_build.outputs.build_type }}"
+          echo "build:   ${{ steps.get_build.outputs.build_url }}"
           echo "download: ${{ steps.get_build.outputs.download_url }}"
 
       - name: Log in to docker.io container registry
