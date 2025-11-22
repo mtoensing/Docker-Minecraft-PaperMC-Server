@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       versions: ${{ steps.get_versions.outputs.versions }}
-      latest: ${{ steps.find_latest.outputs.latest }}
+      latest: ${{ steps.get_versions.outputs.latest }}
     steps:
       - name: get available versions
         id: get_versions
