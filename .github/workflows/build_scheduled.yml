@@ -1,4 +1,4 @@
-name: 'build scheduled'
+name: "build scheduled"
 
 on:
   workflow_dispatch:
@@ -16,10 +16,11 @@ jobs:
         id: get_versions
         run: |
           set -euo pipefail
-          curl -s -o versions.json "https://api.papermc.io/v2/projects/paper"
-          # compute newest unstable (pre/rc etc.) and newest stable (strict semver x.y.z)
-          LATEST_STABLE=$(jq -r '[.versions[] | select(test("^[0-9]+\\.[0-9]+\\.[0-9]+$"))] | last' versions.json)
-          LATEST_UNSTABLE=$(jq -r '[.versions[] | select(test("^[0-9]+\\.[0-9]+\\.[0-9]+$") | not)] | last' versions.json)
+          curl -s -o versions.json "https://fill.papermc.io/v3/projects/paper"
+          # compute newest unstable (pre/rc etc.) and newest stable (strict semver x.y.z) from latest family
+          LATEST_FAMILY=$(jq -r '.versions | keys_unsorted | first' versions.json)
+          LATEST_STABLE=$(jq -r --arg family "$LATEST_FAMILY" '[.versions[$family][] | select(test("^[0-9]+[.][0-9]+[.][0-9]+$"))] | first' versions.json)
+          LATEST_UNSTABLE=$(jq -r --arg family "$LATEST_FAMILY" '[.versions[$family][] | select(test("^[0-9]+[.][0-9]+[.][0-9]+$") | not)] | first' versions.json)
           # build order: newest unstable first, then latest stable
           VERSIONS=$(jq -cn --arg u "$LATEST_UNSTABLE" --arg s "$LATEST_STABLE" '[ $u, $s ] | map(select(. != null and . != ""))')
 
@@ -46,20 +47,22 @@ jobs:
         id: latest_build
         run: |
           set -euo pipefail
-          BUILDS=$(curl -s -o builds.json https://api.papermc.io/v2/projects/paper/versions/${{ matrix.versions }}/builds)
-          BUILD_STABLE=$(jq 'last(.builds[] | select(.channel=="default")).build' builds.json)
-          BUILD_EXPERIMENTAL=$(jq 'last(.builds[] | select(.channel=="experimental")).build' builds.json)
+          BUILDS=$(curl -s -o builds.json https://fill.papermc.io/v3/projects/paper/versions/${{ matrix.versions }}/builds)
+          BUILD_STABLE=$(jq 'first(.[] | select(.channel=="STABLE") | .id)' builds.json)
+          BUILD_BETA=$(jq 'first(.[] | select(.channel=="BETA") | .id)' builds.json)
+          BUILD_ALPHA=$(jq 'first(.[] | select(.channel=="ALPHA") | .id)' builds.json)
           echo "build_stable=$BUILD_STABLE" >> $GITHUB_OUTPUT
-          echo "build_experimental=$BUILD_EXPERIMENTAL" >> $GITHUB_OUTPUT
-          
+          echo "build_beta=$BUILD_BETA" >> $GITHUB_OUTPUT
+          echo "build_alpha=$BUILD_ALPHA" >> $GITHUB_OUTPUT
+
           if  [[ "$BUILD_STABLE" =~ ^[0-9]+$ ]]; then
             BUILD_NUMBER=$BUILD_STABLE
             BUILD_TYPE=stable
           else
-            BUILD_NUMBER=$BUILD_EXPERIMENTAL
+            BUILD_NUMBER=${BUILD_BETA:-$BUILD_ALPHA}
             BUILD_TYPE=experimental
           fi
-          
+
           echo build_number="${BUILD_NUMBER}" >> $GITHUB_OUTPUT
           echo build_type="${BUILD_TYPE}" >> $GITHUB_OUTPUT
 
@@ -68,7 +71,7 @@ jobs:
           else
             echo is_latest="no" >> $GITHUB_OUTPUT
           fi
-          
+
           if [[ $BUILD_TYPE == "experimental" ]]; then
             echo is_experimental="yes" >> $GITHUB_OUTPUT
           else
@@ -89,7 +92,8 @@ jobs:
           echo "latest: ${{ needs.get_all_versions.outputs.latest }}"
           echo "version: ${{ matrix.versions }}"
           echo "build_stable: ${{ steps.latest_build.outputs.build_stable }}"
-          echo "build_experimental: ${{ steps.latest_build.outputs.build_experimental }}"
+          echo "build_beta: ${{ steps.latest_build.outputs.build_beta }}"
+          echo "build_alpha: ${{ steps.latest_build.outputs.build_alpha }}"
           echo "build_number: ${{ steps.latest_build.outputs.build_number }}"
           echo "build_type: ${{ steps.latest_build.outputs.build_type }}"
           echo "is_latest: ${{ steps.latest_build.outputs.is_latest }}"

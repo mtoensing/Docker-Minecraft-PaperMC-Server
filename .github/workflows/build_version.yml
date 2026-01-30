@@ -1,17 +1,17 @@
-name: 'build version'
-run-name: 'build for version ${{ inputs.download_version }}${{ github.event.client_payload.download_version }}'
+name: "build version"
+run-name: "build for version ${{ inputs.download_version }}${{ github.event.client_payload.download_version }}"
 
 on:
   workflow_dispatch:
     inputs:
       download_version:
-        description: 'papermc server version'
+        description: "papermc server version"
         required: true
-        default: '1.20.6'
+        default: "1.20.6"
 
   # Allows you to trigger this workflow from another workflow
   repository_dispatch:
-    types: [ build_version ]
+    types: [build_version]
 
 jobs:
   buid_version:
@@ -30,22 +30,23 @@ jobs:
       - name: get build
         id: get_build
         run: |
-          BUILDS=$(curl -s -o builds.json https://api.papermc.io/v2/projects/paper/versions/${{ env.BASE_VERSION }}/builds)
-          BUILD_STABLE=$(jq 'last(.builds[] | select(.channel=="default")).build' builds.json)
-          BUILD_EXPERIMENTAL=$(jq 'last(.builds[] | select(.channel=="experimental")).build' builds.json)
-          
+          BUILDS=$(curl -s -o builds.json https://fill.papermc.io/v3/projects/paper/versions/${{ env.BASE_VERSION }}/builds)
+          BUILD_STABLE=$(jq 'first(.[] | select(.channel=="STABLE") | .id)' builds.json)
+          BUILD_BETA=$(jq 'first(.[] | select(.channel=="BETA") | .id)' builds.json)
+          BUILD_ALPHA=$(jq 'first(.[] | select(.channel=="ALPHA") | .id)' builds.json)
+
           if  [[ "$BUILD_STABLE" =~ ^[0-9]+$ ]]; then
             BUILD_NUMBER=$BUILD_STABLE
             BUILD_TYPE=stable
           else
-            BUILD_NUMBER=$BUILD_EXPERIMENTAL
+            BUILD_NUMBER=${BUILD_BETA:-$BUILD_ALPHA}
             BUILD_TYPE=experimental
           fi
-          
+
           echo build_number="${BUILD_NUMBER}" >> $GITHUB_OUTPUT
           echo build_type="${BUILD_TYPE}" >> $GITHUB_OUTPUT
-          echo build_url=https://api.papermc.io/v2/projects/paper/versions/${{ env.BASE_VERSION }}/builds/${BUILD_NUMBER} >> $GITHUB_OUTPUT
-          echo download_url="https://api.papermc.io/v2/projects/paper/versions/${{ env.BASE_VERSION }}/builds/${BUILD_NUMBER}/downloads/paper-${{ env.BASE_VERSION }}-${BUILD_NUMBER}.jar" >> $GITHUB_OUTPUT
+          echo build_url=https://fill.papermc.io/v3/projects/paper/versions/${{ env.BASE_VERSION }}/builds/${BUILD_NUMBER} >> $GITHUB_OUTPUT
+          echo download_url="https://fill.papermc.io/v3/projects/paper/versions/${{ env.BASE_VERSION }}/builds/${BUILD_NUMBER}/downloads/paper-${{ env.BASE_VERSION }}-${BUILD_NUMBER}.jar" >> $GITHUB_OUTPUT
 
       - name: show version infos
         run: |
