@@ -73,7 +73,7 @@ jobs:
           BUILD_NUMBER=$(echo "$BUILD_INFO" | jq '.id')
           echo build_number="${BUILD_NUMBER}" >> $GITHUB_OUTPUT
           echo build_type="${BUILD_TYPE}" >> $GITHUB_OUTPUT
-          echo download_url=$(echo "$BUILD_INFO" | jq -r '.downloads.application.url') >> $GITHUB_OUTPUT
+          echo download_url=$(echo "$BUILD_INFO" | jq -r '.downloads."server:default".url') >> $GITHUB_OUTPUT
 
           if [[ $BUILD_TYPE == "stable" && "${{ needs.get_all_versions.outputs.latest }}" == "${{ matrix.versions }}" ]]; then
             echo is_latest="yes" >> $GITHUB_OUTPUT

@@ -51,7 +51,7 @@ jobs:
           BUILD_NUMBER=$(echo "$BUILD_INFO" | jq '.id')
           echo build_number="${BUILD_NUMBER}" >> $GITHUB_OUTPUT
           echo build_type="${BUILD_TYPE}" >> $GITHUB_OUTPUT
-          echo download_url=$(echo "$BUILD_INFO" | jq -r '.downloads.application.url') >> $GITHUB_OUTPUT
+          echo download_url=$(echo "$BUILD_INFO" | jq -r '.downloads."server:default".url') >> $GITHUB_OUTPUT
           echo build_url=https://fill.papermc.io/v3/projects/paper/versions/${{ env.BASE_VERSION }}/builds/${BUILD_NUMBER} >> $GITHUB_OUTPUT
 
       - name: show version infos
