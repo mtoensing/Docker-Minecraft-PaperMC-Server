@@ -37,10 +37,10 @@ jobs:
           BUILD_BETA=$(jq 'first(.[] | select(.channel=="BETA"))' builds.json)
           BUILD_ALPHA=$(jq 'first(.[] | select(.channel=="ALPHA"))' builds.json)
 
-          if [[ "$BUILD_STABLE" != "null" ]]; then
+          if [[ -n "$BUILD_STABLE" && "$BUILD_STABLE" != "null" ]]; then
             BUILD_INFO="$BUILD_STABLE"
             BUILD_TYPE=stable
-          elif [[ "$BUILD_BETA" != "null" ]]; then
+          elif [[ -n "$BUILD_BETA" && "$BUILD_BETA" != "null" ]]; then
             BUILD_INFO="$BUILD_BETA"
             BUILD_TYPE=experimental
           else

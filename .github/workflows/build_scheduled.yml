@@ -59,10 +59,10 @@ jobs:
           echo "build_beta=$(echo "$BUILD_BETA" | jq '.id')" >> $GITHUB_OUTPUT
           echo "build_alpha=$(echo "$BUILD_ALPHA" | jq '.id')" >> $GITHUB_OUTPUT
 
-          if [[ "$BUILD_STABLE" != "null" ]]; then
+          if [[ -n "$BUILD_STABLE" != "null" ]]; then
             BUILD_INFO="$BUILD_STABLE"
             BUILD_TYPE=stable
-          elif [[ "$BUILD_BETA" != "null" ]]; then
+          elif [[ -n "$BUILD_BETA" != "null" ]]; then
             BUILD_INFO="$BUILD_BETA"
             BUILD_TYPE=experimental
           else
