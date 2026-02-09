@@ -1,4 +1,4 @@
-name: 'build scheduled'
+name: "build scheduled"
 
 on:
   workflow_dispatch:
@@ -16,10 +16,11 @@ jobs:
         id: get_versions
         run: |
           set -euo pipefail
-          curl -s -o versions.json "https://api.papermc.io/v2/projects/paper"
-          # compute newest unstable (pre/rc etc.) and newest stable (strict semver x.y.z)
-          LATEST_STABLE=$(jq -r '[.versions[] | select(test("^[0-9]+\\.[0-9]+\\.[0-9]+$"))] | last' versions.json)
-          LATEST_UNSTABLE=$(jq -r '[.versions[] | select(test("^[0-9]+\\.[0-9]+\\.[0-9]+$") | not)] | last' versions.json)
+          curl -s -o versions.json "https://fill.papermc.io/v3/projects/paper"
+          # compute newest unstable (pre/rc etc.) and newest stable (strict semver x.y.z) from latest family
+          LATEST_FAMILY=$(jq -r '.versions | keys_unsorted | first' versions.json)
+          LATEST_STABLE=$(jq -r --arg family "$LATEST_FAMILY" '[.versions[$family][] | select(test("^[0-9]+[.][0-9]+[.][0-9]+$"))] | first' versions.json)
+          LATEST_UNSTABLE=$(jq -r --arg family "$LATEST_FAMILY" '[.versions[$family][] | select(test("^[0-9]+[.][0-9]+[.][0-9]+$") | not)] | first' versions.json)
           # build order: newest unstable first, then latest stable
           VERSIONS=$(jq -cn --arg u "$LATEST_UNSTABLE" --arg s "$LATEST_STABLE" '[ $u, $s ] | map(select(. != null and . != ""))')
 
@@ -46,29 +47,40 @@ jobs:
         id: latest_build
         run: |
           set -euo pipefail
-          BUILDS=$(curl -s -o builds.json https://api.papermc.io/v2/projects/paper/versions/${{ matrix.versions }}/builds)
-          BUILD_STABLE=$(jq 'last(.builds[] | select(.channel=="default")).build' builds.json)
-          BUILD_EXPERIMENTAL=$(jq 'last(.builds[] | select(.channel=="experimental")).build' builds.json)
-          echo "build_stable=$BUILD_STABLE" >> $GITHUB_OUTPUT
-          echo "build_experimental=$BUILD_EXPERIMENTAL" >> $GITHUB_OUTPUT
-          
-          if  [[ "$BUILD_STABLE" =~ ^[0-9]+$ ]]; then
-            BUILD_NUMBER=$BUILD_STABLE
+          BUILDS=$(curl -s -o builds.json https://fill.papermc.io/v3/projects/paper/versions/${{ matrix.versions }}/builds)
+
+          # Extract full objects (not just .id) to access download URL
+          BUILD_STABLE=$(jq 'first(.[] | select(.channel=="STABLE"))' builds.json)
+          BUILD_BETA=$(jq 'first(.[] | select(.channel=="BETA"))' builds.json)
+          BUILD_ALPHA=$(jq 'first(.[] | select(.channel=="ALPHA"))' builds.json)
+
+          # Extract ID for compatibility outputs
+          echo "build_stable=$(echo "$BUILD_STABLE" | jq '.id')" >> $GITHUB_OUTPUT
+          echo "build_beta=$(echo "$BUILD_BETA" | jq '.id')" >> $GITHUB_OUTPUT
+          echo "build_alpha=$(echo "$BUILD_ALPHA" | jq '.id')" >> $GITHUB_OUTPUT
+
+          if [[ -n "$BUILD_STABLE" && "$BUILD_STABLE" != "null" ]]; then
+            BUILD_INFO="$BUILD_STABLE"
             BUILD_TYPE=stable
+          elif [[ -n "$BUILD_BETA" && "$BUILD_BETA" != "null" ]]; then
+            BUILD_INFO="$BUILD_BETA"
+            BUILD_TYPE=experimental
           else
-            BUILD_NUMBER=$BUILD_EXPERIMENTAL
+            BUILD_INFO="$BUILD_ALPHA"
             BUILD_TYPE=experimental
           fi
-          
+
+          BUILD_NUMBER=$(echo "$BUILD_INFO" | jq '.id')
           echo build_number="${BUILD_NUMBER}" >> $GITHUB_OUTPUT
           echo build_type="${BUILD_TYPE}" >> $GITHUB_OUTPUT
+          echo download_url=$(echo "$BUILD_INFO" | jq -r '.downloads."server:default".url') >> $GITHUB_OUTPUT
 
           if [[ $BUILD_TYPE == "stable" && "${{ needs.get_all_versions.outputs.latest }}" == "${{ matrix.versions }}" ]]; then
             echo is_latest="yes" >> $GITHUB_OUTPUT
           else
             echo is_latest="no" >> $GITHUB_OUTPUT
           fi
-          
+
           if [[ $BUILD_TYPE == "experimental" ]]; then
             echo is_experimental="yes" >> $GITHUB_OUTPUT
           else
@@ -89,9 +101,11 @@ jobs:
           echo "latest: ${{ needs.get_all_versions.outputs.latest }}"
           echo "version: ${{ matrix.versions }}"
           echo "build_stable: ${{ steps.latest_build.outputs.build_stable }}"
-          echo "build_experimental: ${{ steps.latest_build.outputs.build_experimental }}"
+          echo "build_beta: ${{ steps.latest_build.outputs.build_beta }}"
+          echo "build_alpha: ${{ steps.latest_build.outputs.build_alpha }}"
           echo "build_number: ${{ steps.latest_build.outputs.build_number }}"
           echo "build_type: ${{ steps.latest_build.outputs.build_type }}"
+          echo "download_url: ${{ steps.latest_build.outputs.download_url }}"
           echo "is_latest: ${{ steps.latest_build.outputs.is_latest }}"
           echo "is_experimental: ${{ steps.latest_build.outputs.is_experimental }}"
           echo "self_build: ${{ steps.self_build.outputs.self_build }}"
@@ -101,4 +115,4 @@ jobs:
         if: github.event_name == 'workflow_dispatch' || steps.latest_build.outputs.build_number != steps.self_build.outputs.self_build
         with:
           event-type: build_version
-          client-payload: '{"download_version": "${{ matrix.versions }}", "is_latest": "${{ steps.latest_build.outputs.is_latest }}", "is_experimental": "${{ steps.latest_build.outputs.is_experimental }}"}'
+          client-payload: '{"download_version": "${{ matrix.versions }}", "download_url": "${{ steps.latest_build.outputs.download_url }}", "is_latest": "${{ steps.latest_build.outputs.is_latest }}", "is_experimental": "${{ steps.latest_build.outputs.is_experimental }}"}'
