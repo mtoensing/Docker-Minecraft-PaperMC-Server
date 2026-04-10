@@ -17,13 +17,25 @@ jobs:
         run: |
           set -euo pipefail
           curl -s -o versions.json "https://fill.papermc.io/v3/projects/paper"
-          # compute newest unstable (pre/rc etc.) and newest stable (strict semver x.y.z) from latest family
-          LATEST_FAMILY=$(jq -r '.versions | keys_unsorted | first' versions.json)
-          LATEST_STABLE=$(jq -r --arg family "$LATEST_FAMILY" '[.versions[$family][] | select(test("^[0-9]+[.][0-9]+[.][0-9]+$"))] | first' versions.json)
-          LATEST_UNSTABLE=$(jq -r --arg family "$LATEST_FAMILY" '[.versions[$family][] | select(test("^[0-9]+[.][0-9]+[.][0-9]+$") | not)] | first' versions.json)
+          # pick newest family (numeric sort) and determine newest stable and newest unstable by actual build channel
+          LATEST_FAMILY=$(jq -r '.versions | keys | sort_by(split(".") | map(tonumber)) | last' versions.json)
+          LATEST_STABLE=""
+          LATEST_UNSTABLE=""
+          for v in $(jq -r --arg f "$LATEST_FAMILY" '.versions[$f][]' versions.json); do
+            CHANNEL=$(curl -s "https://fill.papermc.io/v3/projects/paper/versions/$v/builds" | jq -r 'if type=="array" and length>0 then .[0].channel else "NONE" end')
+            if [[ "$CHANNEL" == "STABLE" && -z "$LATEST_STABLE" ]]; then LATEST_STABLE="$v"; elif [[ "$CHANNEL" != "STABLE" && "$CHANNEL" != "NONE" && -z "$LATEST_UNSTABLE" ]]; then LATEST_UNSTABLE="$v"; fi
+            [[ -n "$LATEST_STABLE" && -n "$LATEST_UNSTABLE" ]] && break
+          done
+          # fallback to previous family if newest has no stable build yet
+          if [[ -z "$LATEST_STABLE" ]]; then
+            PREV_FAMILY=$(jq -r '.versions | keys | sort_by(split(".") | map(tonumber)) | .[-2]' versions.json)
+            for v in $(jq -r --arg f "$PREV_FAMILY" '.versions[$f][]' versions.json); do
+              CHANNEL=$(curl -s "https://fill.papermc.io/v3/projects/paper/versions/$v/builds" | jq -r 'if type=="array" and length>0 then .[0].channel else "NONE" end')
+              if [[ "$CHANNEL" == "STABLE" ]]; then LATEST_STABLE="$v"; break; fi
+            done
+          fi
           # build order: newest unstable first, then latest stable
           VERSIONS=$(jq -cn --arg u "$LATEST_UNSTABLE" --arg s "$LATEST_STABLE" '[ $u, $s ] | map(select(. != null and . != ""))')
-
           echo "versions=$VERSIONS" >> "$GITHUB_OUTPUT"
           # keep compatibility: expose latest (stable) for downstream steps already using it
           echo "latest=$LATEST_STABLE" >> "$GITHUB_OUTPUT"
@@ -54,10 +66,10 @@ jobs:
           BUILD_BETA=$(jq 'first(.[] | select(.channel=="BETA"))' builds.json)
           BUILD_ALPHA=$(jq 'first(.[] | select(.channel=="ALPHA"))' builds.json)
 
-          # Extract ID for compatibility outputs
-          echo "build_stable=$(echo "$BUILD_STABLE" | jq '.id')" >> $GITHUB_OUTPUT
-          echo "build_beta=$(echo "$BUILD_BETA" | jq '.id')" >> $GITHUB_OUTPUT
-          echo "build_alpha=$(echo "$BUILD_ALPHA" | jq '.id')" >> $GITHUB_OUTPUT
+          # Extract ID for compatibility outputs (fallback to null when channel has no build)
+          echo "build_stable=$(echo "${BUILD_STABLE:-null}" | jq '.id // null')" >> $GITHUB_OUTPUT
+          echo "build_beta=$(echo "${BUILD_BETA:-null}" | jq '.id // null')" >> $GITHUB_OUTPUT
+          echo "build_alpha=$(echo "${BUILD_ALPHA:-null}" | jq '.id // null')" >> $GITHUB_OUTPUT
 
           if [[ -n "$BUILD_STABLE" && "$BUILD_STABLE" != "null" ]]; then
             BUILD_INFO="$BUILD_STABLE"
