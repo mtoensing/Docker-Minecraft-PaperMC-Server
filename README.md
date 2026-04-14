@@ -12,6 +12,10 @@ Works on Synology, Raspberry Pi or any other systems that support docker.
 
 Always up-to-date with the latest PaperMC version.
 
+> [!IMPORTANT]
+> PaperMC currently documents Java 25 as the required runtime for Paper `26.1+`.
+> This image is therefore based on Java 25. 
+
 ## Quick Start
 
 ```sh
