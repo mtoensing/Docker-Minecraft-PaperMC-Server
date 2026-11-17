@@ -279,4 +279,4 @@ On GitHub https://github.com/mtoensing/Docker-Minecraft-PaperMC-Server
 
 This server is live here: https://mc.marc.tv
 
-Based on the work of [Felix Klauke](https://github.com/FelixKlauke/paperspigot-docker) Thanks for your help!
+Based on the work of [Felix Klauke](https://github.com/FelixKlauke/paperspigot-docker) Thanks for your help! 
